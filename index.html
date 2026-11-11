@@ -677,6 +677,198 @@ body{background:var(--bg);}
 .tdc-tag-probe{background:rgba(245,158,11,0.13);color:var(--or);}
 .tdc-note{margin-top:10px;padding:10px 12px;background:#fff5f5;border:1px solid #fecaca;border-left:3px solid #ef4444;border-radius:8px;font-size:12.5px;line-height:1.55;color:var(--charcoal);display:flex;gap:9px;}
 .tdc-note i{color:#ef4444;font-size:15px;flex-shrink:0;margin-top:1px;}
+
+/* ============================================================
+   GUIDED CALL FLOW — one card at a time
+   ============================================================ */
+#flow{height:100vh;height:100dvh;display:none;grid-template-rows:56px 1fr;background:var(--bg);}
+.fl-hdr{background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 14px;min-width:0;}
+.fl-logo{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;font-size:13px;color:var(--charcoal);flex-shrink:0;}
+.fl-logo .hsm{width:26px;height:26px;border-radius:7px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+.fl-lead{display:flex;gap:6px;min-width:0;flex:0 1 380px;}
+.fl-lead input{min-width:0;flex:1;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 10px;font:inherit;font-size:13px;color:var(--charcoal);}
+.fl-lead input:focus{outline:2px solid var(--teal);outline-offset:-1px;background:#fff;}
+.fl-lead input#fl-name{font-weight:600;}
+.fl-timer{font-variant-numeric:tabular-nums;font-size:12px;font-weight:600;color:var(--slate);background:var(--bg2);border-radius:999px;padding:5px 10px;display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.fl-timer::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gn);box-shadow:0 0 0 3px var(--gnl);}
+.fl-track{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px;font:inherit;font-size:12px;font-weight:600;color:var(--slate);cursor:pointer;display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.fl-track b{color:var(--tealDeep);font-weight:700;}
+.fl-sp{flex:1;}
+.fl-hbtn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 11px;font:inherit;font-size:12.5px;font-weight:600;color:var(--charcoal);cursor:pointer;display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.fl-hbtn:hover{border-color:var(--line-strong);}
+.fl-hbtn i{font-size:15px;}
+.fl-hbtn kbd,.fl-foot kbd,.fl-obj kbd,.fl-rail-tip kbd{font:600 10.5px/1 Inter,system-ui,sans-serif;background:var(--bg2);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:2px 5px;color:var(--slate);}
+.fl-hbtn.obj{background:#FFF7E6;border-color:var(--orb);color:#92400E;}
+.fl-hbtn.obj:hover{background:#FEF0CF;}
+.fl-hbtn.end{background:var(--rdl);border-color:var(--rdb);color:var(--rd);}
+.fl-hbtn.leadbtn{display:none;}
+
+.fl-body{display:grid;grid-template-columns:208px minmax(0,1fr) 330px;min-height:0;}
+.fl-rail{border-right:1px solid var(--line);background:#fff;padding:18px 10px;overflow-y:auto;}
+.fl-rail h4{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);font-weight:700;padding:0 10px 10px;}
+.fl-stg{width:100%;display:flex;align-items:center;gap:10px;border:0;background:none;text-align:left;padding:9px 10px;border-radius:9px;font:inherit;font-size:13px;color:var(--slate);cursor:pointer;}
+.fl-stg:hover{background:var(--bg2);}
+.fl-stg .dot{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line-strong);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--mu);flex-shrink:0;background:#fff;}
+.fl-stg.done .dot{background:var(--gn);border-color:var(--gn);color:#fff;}
+.fl-stg.on{background:var(--teall);color:var(--charcoal);font-weight:600;}
+.fl-stg.on .dot{border-color:var(--teal);color:var(--tealDeep);}
+.fl-rail-tip{margin:18px 6px 0;padding:12px;border-radius:10px;background:var(--bg);font-size:11.5px;line-height:1.55;color:var(--mu);}
+.fl-rail-tip div{display:flex;justify-content:space-between;gap:8px;margin-top:4px;}
+
+.fl-main{overflow-y:auto;min-height:0;display:flex;flex-direction:column;}
+.fl-progress{display:none;}
+.fl-cardwrap{flex:1;padding:28px 28px 8px;display:flex;justify-content:center;}
+.fl-card{width:100%;max-width:720px;}
+.fl-stage{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--mu);margin-bottom:14px;}
+.fl-stage .pill{background:var(--teall);color:var(--tealDeep);border-radius:999px;padding:3px 10px;font-weight:700;}
+.fl-say{background:#fff;border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:14px;padding:22px 24px;box-shadow:var(--shadow);}
+.fl-saylbl{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--tealDeep);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.fl-say p{font-size:19px;line-height:1.55;color:var(--charcoal);margin:0 0 12px;}
+.fl-say p:last-child{margin-bottom:0;}
+.fl-say p.li{padding-left:18px;position:relative;font-size:17.5px;margin-bottom:6px;}
+.fl-say p.li::before{content:"";position:absolute;left:3px;top:.68em;width:6px;height:6px;border-radius:50%;background:var(--teal);}
+.fl-say p.mirror{font-size:15px;color:var(--mu);font-style:italic;}
+.fl-say b{font-weight:700;color:#0f172a;}
+.fl-say .ph{background:#FEF3C7;color:#92400E;border-radius:5px;padding:0 5px;font-weight:600;white-space:nowrap;}
+.fl-say .fill{background:var(--gnl);color:#065F46;border-radius:5px;padding:0 5px;font-weight:700;}
+.fl-cue{margin-top:12px;display:flex;gap:8px;align-items:flex-start;font-size:14px;color:#92400E;background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:10px 12px;line-height:1.45;}
+.fl-cue i{font-size:16px;margin-top:1px;}
+.fl-cap{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:14px;}
+.fl-cap-row label{display:block;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mu);margin-bottom:7px;}
+.fl-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.fl-chip{border:1px solid var(--line-strong);background:#fff;border-radius:999px;padding:7px 13px;font:inherit;font-size:13px;font-weight:500;color:var(--charcoal);cursor:pointer;}
+.fl-chip:hover{border-color:var(--teal);}
+.fl-chip.on{background:var(--charcoal);border-color:var(--charcoal);color:#fff;}
+.fl-inp{width:100%;border:1px solid var(--line-strong);border-radius:9px;padding:9px 11px;font:inherit;font-size:14px;color:var(--charcoal);background:#fff;}
+.fl-inp:focus{outline:2px solid var(--teal);outline-offset:-1px;}
+.fl-cap-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fl-optlbl{margin:20px 0 8px;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);}
+.fl-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;}
+.fl-opt{display:flex;align-items:center;gap:10px;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:12px 14px;font:inherit;font-size:14.5px;font-weight:600;color:var(--charcoal);cursor:pointer;transition:border-color .15s,background .15s;}
+.fl-opt:hover{border-color:var(--teal);background:#F0FDFF;}
+.fl-opt .k{width:24px;height:24px;border-radius:7px;background:var(--bg2);color:var(--slate);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.fl-opt.warn{border-color:var(--orb);}
+.fl-opt.warn:hover{background:#FFFBEB;}
+.fl-opt.end .k{background:var(--rdl);color:var(--rd);}
+.fl-tip{margin-top:14px;display:flex;gap:8px;font-size:13px;line-height:1.5;color:var(--slate);padding:0 2px;}
+.fl-tip i{color:var(--or);font-size:16px;flex-shrink:0;margin-top:1px;}
+.fl-check{display:grid;gap:8px;margin-top:4px;}
+.fl-check label{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:14px;font-weight:600;color:var(--charcoal);}
+.fl-check label small{display:block;font-weight:400;color:var(--mu);font-size:12.5px;margin-top:2px;}
+.fl-check input{width:18px;height:18px;margin-top:1px;accent-color:var(--gn);flex-shrink:0;}
+
+.fl-foot{position:sticky;bottom:0;background:linear-gradient(to top,var(--bg) 70%,rgba(248,250,252,0));padding:14px 28px 18px;display:flex;justify-content:center;}
+.fl-foot-in{width:100%;max-width:720px;display:flex;align-items:center;gap:10px;}
+.fl-back{border:1px solid var(--line);background:#fff;border-radius:11px;padding:12px 16px;font:inherit;font-size:14px;font-weight:600;color:var(--slate);cursor:pointer;display:flex;align-items:center;gap:6px;}
+.fl-back:disabled{opacity:.4;cursor:default;}
+.fl-keys{flex:1;text-align:center;font-size:11.5px;color:var(--mu);}
+.fl-next{border:0;background:var(--charcoal);color:#fff;border-radius:11px;padding:12px 20px;font:inherit;font-size:14.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;}
+.fl-next:hover{background:#0f172a;}
+.fl-next.go{background:var(--gn);}
+.fl-next[hidden]{display:none;}
+
+.fl-side{border-left:1px solid var(--line);background:#fff;display:flex;flex-direction:column;min-height:0;}
+.fl-side-hd{display:none;}
+.fl-side-sc{overflow-y:auto;padding:16px;flex:1;}
+.fl-sec{margin-bottom:18px;}
+.fl-sec h5{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;}
+.fl-facts{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+.fl-fact{display:grid;grid-template-columns:96px 1fr;gap:8px;background:#fff;padding:7px 10px;font-size:12.5px;border:0;text-align:left;font-family:inherit;cursor:pointer;}
+.fl-fact:hover{background:var(--bg);}
+.fl-fact span{color:var(--mu);}
+.fl-fact b{font-weight:600;color:var(--charcoal);word-break:break-word;}
+.fl-fact.empty b{color:var(--gray);font-weight:400;}
+.fl-notes{width:100%;min-height:90px;resize:vertical;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font:inherit;font-size:13px;line-height:1.45;}
+.fl-notes:focus{outline:2px solid var(--teal);outline-offset:-1px;}
+.fl-tabs{display:flex;gap:4px;background:var(--bg2);border-radius:9px;padding:3px;margin-bottom:10px;}
+.fl-tab{flex:1;border:0;background:none;border-radius:7px;padding:6px 4px;font:inherit;font-size:12px;font-weight:600;color:var(--slate);cursor:pointer;}
+.fl-tab.on{background:#fff;color:var(--charcoal);box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.fl-proof{font-size:13px;}
+.fl-objlog{display:flex;flex-wrap:wrap;gap:5px;}
+.fl-objlog span{background:#FFF7E6;border:1px solid var(--orb);color:#92400E;border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:600;}
+
+/* Objection overlay */
+.fl-obj{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:900;display:flex;align-items:stretch;justify-content:center;padding:24px;}
+.fl-obj[hidden]{display:none;}
+.fl-obj-box{background:#fff;border-radius:16px;width:100%;max-width:1080px;display:grid;grid-template-rows:auto auto 1fr auto;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.25);}
+.fl-obj-top{display:flex;gap:10px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);}
+.fl-obj-top i.s{font-size:20px;color:var(--mu);}
+.fl-obj-top input{flex:1;border:0;font:inherit;font-size:18px;color:var(--charcoal);padding:6px 0;min-width:0;}
+.fl-obj-top input:focus{outline:none;}
+.fl-obj-cats{display:flex;gap:6px;overflow-x:auto;padding:10px 16px;border-bottom:1px solid var(--line);scrollbar-width:thin;}
+.fl-obj-cats button{flex-shrink:0;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px;font:inherit;font-size:12px;font-weight:600;color:var(--slate);cursor:pointer;}
+.fl-obj-cats button.on{background:var(--charcoal);border-color:var(--charcoal);color:#fff;}
+.fl-obj-mid{display:grid;grid-template-columns:300px 1fr;min-height:0;}
+.fl-obj-list{border-right:1px solid var(--line);overflow-y:auto;padding:8px;}
+.fl-obj-list button{display:block;width:100%;text-align:left;border:0;background:none;border-radius:9px;padding:9px 10px;font:inherit;font-size:13.5px;font-weight:600;color:var(--charcoal);cursor:pointer;}
+.fl-obj-list button small{display:block;font-weight:500;font-size:11px;color:var(--mu);margin-top:2px;}
+.fl-obj-list button:hover{background:var(--bg2);}
+.fl-obj-list button.on{background:#FFF7E6;box-shadow:inset 3px 0 0 var(--or);}
+.fl-obj-list .none{padding:14px 10px;color:var(--mu);font-size:13px;line-height:1.5;}
+.fl-obj-ans{overflow-y:auto;padding:20px 24px;}
+.fl-obj-ans h3{font-size:20px;font-weight:700;color:var(--charcoal);margin-bottom:6px;}
+.fl-obj-ans .mean{font-size:13px;color:var(--mu);line-height:1.5;margin-bottom:14px;}
+.fl-obj-say{background:#F0FDFF;border:1px solid rgba(6,182,212,.3);border-left:4px solid var(--teal);border-radius:12px;padding:16px 18px;margin-bottom:12px;}
+.fl-obj-say .lab{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--tealDeep);margin-bottom:8px;}
+.fl-obj-say .lab button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:3px 8px;font:inherit;font-size:11px;font-weight:600;color:var(--slate);cursor:pointer;text-transform:none;letter-spacing:0;}
+.fl-obj-say .txt{font-size:18px;line-height:1.55;color:var(--charcoal);}
+.fl-obj-blk{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;font-size:14px;line-height:1.5;color:var(--charcoal);}
+.fl-obj-blk .lab{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);margin-bottom:5px;}
+.fl-obj-blk.next{border-color:var(--gnb);background:#F0FDF4;}
+.fl-obj-blk.next .lab{color:#047857;}
+.fl-obj-blk.never{border-color:var(--rdb);background:#FEF2F2;}
+.fl-obj-blk.never .lab{color:var(--rd);}
+.fl-obj-blk.never ul{padding-left:18px;}
+.fl-obj-rel{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--mu);margin-top:6px;}
+.fl-obj-rel button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 10px;font:inherit;font-size:12px;color:var(--slate);cursor:pointer;}
+.fl-obj-bot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--line);background:var(--bg);}
+.fl-obj-bot .hint{font-size:12px;color:var(--mu);}
+
+@media (max-width:1180px){
+  .fl-body{grid-template-columns:184px minmax(0,1fr) 290px;}
+}
+@media (max-width:980px){
+  .fl-body{grid-template-columns:minmax(0,1fr);}
+  .fl-rail{display:none;}
+  .fl-progress{display:flex;gap:4px;padding:12px 16px 0;}
+  .fl-progress span{flex:1;height:4px;border-radius:2px;background:var(--bg3);}
+  .fl-progress span.done{background:var(--gn);}
+  .fl-progress span.on{background:var(--teal);}
+  .fl-hbtn.leadbtn{display:flex;}
+  .fl-side{position:fixed;left:0;right:0;bottom:0;top:12vh;z-index:800;border:0;border-radius:16px 16px 0 0;box-shadow:0 -12px 40px rgba(0,0,0,.18);transform:translateY(105%);transition:transform .22s ease-out;}
+  .fl-side.open{transform:none;}
+  .fl-side-hd{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700;font-size:14px;}
+  .fl-side-hd button{border:0;background:var(--bg2);border-radius:8px;width:32px;height:32px;font-size:18px;cursor:pointer;}
+}
+@media (max-width:760px){
+  #flow{grid-template-rows:auto 1fr;}
+  .fl-hdr{flex-wrap:wrap;padding:8px 12px;gap:6px;}
+  #fl-classic{display:none;}
+  .fl-hbtn{padding:8px 9px;}
+  .fl-track{padding:6px 9px;font-size:11.5px;}
+  .fl-timer{padding:5px 8px;}
+  .fl-logo span,.fl-hbtn .t,.fl-hbtn kbd,.fl-track .t{display:none;}
+  .fl-lead{order:10;flex:1 1 100%;}
+  .fl-sp{display:none;}
+  .fl-hdr .fl-timer{margin-left:auto;}
+  .fl-cardwrap{padding:16px 16px 6px;}
+  .fl-say{padding:16px 16px;}
+  .fl-say p{font-size:17px;}
+  .fl-say p.li{font-size:16px;}
+  .fl-opts{grid-template-columns:1fr;}
+  .fl-foot{padding:10px 16px 14px;}
+  .fl-keys{display:none;}
+  .fl-foot-in{justify-content:space-between;}
+  .fl-next{flex:1;justify-content:center;}
+  .fl-cap-2{grid-template-columns:1fr;}
+  .fl-obj{padding:0;}
+  .fl-obj-box{border-radius:0;}
+  .fl-obj-mid{grid-template-columns:1fr;grid-template-rows:minmax(0,38%) 1fr;}
+  .fl-obj-list{border-right:0;border-bottom:1px solid var(--line);}
+  .fl-obj-ans{padding:16px;}
+  .fl-obj-bot .hint{display:none;}
+}
+
 </style>
 </head>
 <body>
@@ -792,6 +984,63 @@ body{background:var(--bg);}
         <div class="rp-schools" id="rp-schools"></div>
       </div>
     </div>
+  </div>
+</div>
+
+<div id="flow">
+  <header class="fl-hdr">
+    <div class="fl-logo" id="fl-home" title="Back to start"><div class="hsm">S</div><span>Copilot</span></div>
+    <div class="fl-lead">
+      <input id="fl-name" placeholder="Lead name" autocomplete="off" />
+      <input id="fl-phone" placeholder="WhatsApp number" autocomplete="off" inputmode="tel" />
+    </div>
+    <div class="fl-timer" id="fl-timer">0:00</div>
+    <button class="fl-track" id="fl-track" title="Switch between the early-career and senior scripts"><i class="ti ti-arrows-exchange"></i><span class="t">Track:</span> <b id="fl-track-l">Early-career</b></button>
+    <div class="fl-sp"></div>
+    <button class="fl-hbtn obj" id="fl-objbtn"><i class="ti ti-shield-bolt"></i><span class="t">Objection</span> <kbd>/</kbd></button>
+    <button class="fl-hbtn leadbtn" id="fl-leadbtn"><i class="ti ti-id-badge"></i><span class="t">Lead</span></button>
+    <button class="fl-hbtn" id="fl-classic" title="Open the old full-script view"><i class="ti ti-layout-columns"></i><span class="t">Classic view</span></button>
+    <button class="fl-hbtn end" id="fl-end"><i class="ti ti-phone-off"></i><span class="t">End call</span></button>
+  </header>
+  <div class="fl-body">
+    <nav class="fl-rail" id="fl-rail" aria-label="Call stages"></nav>
+    <main class="fl-main" id="fl-main">
+      <div class="fl-progress" id="fl-progress"></div>
+      <div class="fl-cardwrap"><article class="fl-card" id="fl-card" aria-live="polite"></article></div>
+      <div class="fl-foot"><div class="fl-foot-in">
+        <button class="fl-back" id="fl-back"><i class="ti ti-arrow-left"></i>Back</button>
+        <div class="fl-keys" id="fl-keys"></div>
+        <button class="fl-next" id="fl-next">Next <i class="ti ti-arrow-right"></i></button>
+      </div></div>
+    </main>
+    <aside class="fl-side" id="fl-side">
+      <div class="fl-side-hd"><span>Lead so far</span><button id="fl-side-x" aria-label="Close">×</button></div>
+      <div class="fl-side-sc">
+        <div class="fl-sec"><h5>Lead so far</h5><div class="fl-facts" id="fl-facts"></div></div>
+        <div class="fl-sec" id="fl-objsec" hidden><h5>Objections raised</h5><div class="fl-objlog" id="fl-objlog"></div></div>
+        <div class="fl-sec"><h5>Your notes <span style="text-transform:none;letter-spacing:0;font-weight:500">goes to HubSpot</span></h5><textarea class="fl-notes" id="fl-notes" placeholder="Their words, family context, anything the mentor should know..."></textarea></div>
+        <div class="fl-sec"><h5>Proof</h5>
+          <div class="fl-tabs" id="fl-tabs">
+            <button class="fl-tab on" data-tab="stories">Stories</button>
+            <button class="fl-tab" data-tab="schools">Schools</button>
+            <button class="fl-tab" data-tab="leaders">Leaders</button>
+          </div>
+          <div class="fl-proof" id="fl-proof"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="fl-obj" id="fl-obj" hidden>
+  <div class="fl-obj-box" role="dialog" aria-modal="true" aria-label="Objection help">
+    <div class="fl-obj-top"><i class="ti ti-search s"></i><input id="fl-obj-q" placeholder="What did they say? e.g. &quot;too expensive&quot;, &quot;husband se puchna hai&quot;" autocomplete="off" /><button class="fl-hbtn" id="fl-obj-x">Back to call <kbd>Esc</kbd></button></div>
+    <div class="fl-obj-cats" id="fl-obj-cats"></div>
+    <div class="fl-obj-mid">
+      <div class="fl-obj-list" id="fl-obj-list"></div>
+      <div class="fl-obj-ans" id="fl-obj-ans"></div>
+    </div>
+    <div class="fl-obj-bot"><span class="hint"><kbd>↑</kbd> <kbd>↓</kbd> to move · <kbd>Enter</kbd> back to the call · it's logged in your notes</span><button class="fl-next" id="fl-obj-done">Back to the call <i class="ti ti-arrow-back-up"></i></button></div>
   </div>
 </div>
 
@@ -4249,7 +4498,7 @@ var PHASES = [
      prof:'none'},
 
     {tag:'Effort + Commitment Check',
-     scr:'So **{n}** — please don\'t worry about opportunities. **They will be there.**\n\nBut here is the honest part: the goal you have shared with me — to actually reach it, it will take **real work**. You will have to invest your **time**, your **effort**, and your **finances** in your own career.\n\nBecause changing the way you teach is **real transformation** — and that kind of growth doesn\'t happen for free.\n\nSo tell me honestly, **{n}** — **how mentally prepared are you right now to invest in your career?**',
+     scr:'So **{n}**, let me be honest with you. To actually reach the goal you have shared with me, it will take **real work**. You will have to invest your **time**, your **effort**, and your **finances** in your own career.\n\nBecause changing the way you teach is **real transformation** — and that kind of growth doesn\'t happen for free.\n\nSo tell me honestly, **{n}** — **how mentally prepared are you right now to invest in your career?**',
      tip:'**Emotional commitment check** — anchored to the goal they shared, not framed as a transaction. The question "**how mentally prepared are you to invest?**" is gentler than "are you ready?" and surfaces hesitation honestly. Pause completely after the question. Their answer (and any hesitation) is **gold** for HubSpot notes.',
      prof:'none'}
   ]},
@@ -4288,13 +4537,13 @@ var PHASES = [
   /* ── PHASE 7: SESSION PITCH & BOOKING ── */
   {name:'Session Pitch & Booking',icon:'ti-calendar-event',topic:'trust',steps:[
     {tag:'Align Profile with Mentor',
-     scr:'So **{n}** — based on everything you\'ve shared with me, I\'d like to **align your profile with [Mentor Name]**, whose expertise closely matches your career goals.\n\nThey\'ve **guided hundreds of teachers into international schools and premium curriculum roles** across India, helping educators achieve career growth that often takes years to reach.\n\n──────────\n\nIn this personalised **30\u201345 minute counselling session**, [Mentor Name] will:\n\n• Help you build a **clear career roadmap** based on your current profile.\n\n• Guide you on **which Suraasa program** would be the right starting point for you.\n\n• Show you what **top schools are looking for right now** and how you can position yourself strongly for better opportunities.\n\n• Share **practical next steps** for your growth.',
+     scr:'So **{n}** — based on everything you\'ve shared with me, I\'d like to **align your profile with [Mentor Name]**, whose expertise closely matches your career goals.\n\nThey work with **teachers who have goals like yours**, and know **what schools are looking for right now**.\n\n──────────\n\nIn this personalised **30\u201345 minute counselling session**, [Mentor Name] will:\n\n• Help you build a **clear career roadmap** based on your current profile.\n\n• Guide you on **which Suraasa program** would be the right starting point for you.\n\n• Show you what **top schools are looking for right now** and how you can position yourself strongly for better opportunities.\n\n• Share **practical next steps** for your growth.',
      tip:'**Position the mentor as a specialist** chosen specifically for this lead, not a generic counsellor. The 4 bullets are the spine of value — land them clearly, don\'t race through. Pick the mentor name from the dropdown at outcome time — use a placeholder here.',
      prof:'none'},
 
     {tag:'Priority Slot Framing',
-     scr:'One important thing, **{n}**.\n\n[Mentor Name] **only keeps a limited number of one-on-one counselling slots open each day** because these are **highly personalised discussions**.\n\nBased on your profile and aspirations, **I can recommend your case from my end** and try to arrange a **reserved priority slot for you without the standard counselling charge.**\n\nThat\'s why I\'d strongly recommend **scheduling this for today or tomorrow** while these recommendation slots are still available.',
-     tip:'**Quiet urgency — not pressure.** The phrase "recommend your case from my end" creates a sense that the setter is going out of their way for the lead. "Without the standard counselling charge" plants value without naming numbers. **Slow down** on "today or tomorrow" — it\'s the close-out anchor.',
+     scr:'One important thing, **{n}**.\n\n[Mentor Name] **only keeps a limited number of one-on-one counselling slots open each day** because these are **highly personalised discussions**.\n\nBased on your profile and aspirations, **I can recommend your case from my end** and try to arrange a **priority slot for you**. The session is free.\n\nThat\'s why I\'d strongly recommend **scheduling this for today or tomorrow** while these recommendation slots are still available.',
+     tip:'**Quiet urgency — not pressure.** The phrase "recommend your case from my end" creates a sense that the setter is going out of their way for the lead. Only say "limited slots" if it is true today. **Slow down** on "today or tomorrow" — it\'s the close-out anchor.',
      prof:'none'},
 
     {tag:'Setup + Confirm Slot',
@@ -4582,8 +4831,8 @@ function getGoalTransition() {
       fresher: 'So I understand you\'re looking to teach in the **USA / UAE** \u2014 or any specific country. **Are you aware of what international schools look for in new teachers?**\n\nThe reality is \u2014 schools abroad don\'t just hire on degrees. They want **proof** that you\'re ready for their curriculum and teaching style.\n\nFor a teacher starting out \u2014 that\'s actually an **advantage**. You can build the right profile from day one \u2014 not retrofit years later.'
     },
     salary: {
-      experienced: 'So you\'re aiming for a **higher salary. Do you know what top schools actually look for before offering 2X-4X higher packages?**\n\nIf a school wants to pay an excellent salary \u2014 they expect **highly skilled educators** who can prove their impact.\n\nThat\'s exactly what we help teachers build \u2014 so you stand out and actually get those **premium offers**.',
-      fresher: 'So you\'re aiming for a **strong starting package. Do you know what top schools actually look for before offering premium salaries even to new teachers?**\n\nIf a school wants to pay well \u2014 they expect teachers who can **prove their impact from day one**.\n\nThat\'s exactly what we help freshers build \u2014 so you can **start at a level most teachers don\'t reach for years**.'
+      experienced: 'So you\'re aiming for a **higher salary. Do you know what top schools actually look for before they offer a stronger package?**\n\nIf a school wants to pay an excellent salary \u2014 they expect **highly skilled educators** who can prove their impact.\n\nThat\'s exactly what we help teachers build \u2014 so you **stand out** when those roles open.',
+      fresher: 'So you\'re aiming for a **strong starting package. Do you know what top schools actually look for before offering premium salaries even to new teachers?**\n\nIf a school wants to pay well \u2014 they expect teachers who can **prove their impact from day one**.\n\nThat\'s exactly what we help freshers build \u2014 so you can **start strong**.'
     },
     betterSchool: {
       experienced: 'You want to **move to a better school. Do you know what factors schools really consider when hiring teachers for premium roles?**\n\nSchools don\'t just go by experience or degrees anymore. They look for teachers who bring **modern teaching practices** and **clear evidence of results**.\n\nThat\'s where most teachers miss out \u2014 but **we make sure you\'re fully ready**.',
@@ -4643,7 +4892,7 @@ function getStep1() {
       e: 'It always starts with the **regulatory piece** \u2014 your licence to teach in their system. Your B.Ed is excellent for India, but abroad they want an **international qualification** \u2014 something that proves you understand their curriculum and standards. That\'s where most teachers get stuck without even realising it. The good news \u2014 you already have the foundation. We add the international layer on top.'
     },
     salary: {
-      q: 'When premium schools in India offer 1.5-2 lakhs a month \u2014 what do you think they\'re really paying for? It\'s not just years of experience, right?',
+      q: 'When premium schools offer a much stronger package \u2014 what do you think they\'re really paying for? It\'s not just years of experience, right?',
       e: 'Premium schools pay for **credentials that signal world-class capability**. Your B.Ed gets you in the door at standard CBSE schools \u2014 but for premium pay, they want an **international qualification** that signals you can handle their curriculum. That\'s the first thing they screen for.'
     },
     betterSchool: {
@@ -4675,7 +4924,7 @@ function getStep2() {
       e: 'International classrooms run on **completely different teaching practices** \u2014 inquiry-based learning, technology integration, differentiated instruction, 21st-century pedagogy. What works in India may not work abroad. You don\'t have to learn it on the job after you move \u2014 we build these skills before you go, so you walk in ready from day one.'
     },
     salary: {
-      q: 'Premium schools paying 2-3X regular salaries \u2014 what do you think they expect in return from their teachers that a standard school doesn\'t?',
+      q: 'Schools that pay well \u2014 what do you think they expect in return from their teachers that a standard school doesn\'t?',
       e: 'They expect **advanced classroom skills** \u2014 pedagogy that drives measurable outcomes, tech integration, evidence-based teaching. These aren\'t things they hope you\'ll learn on the job \u2014 they want teachers who already have these skills. That\'s exactly the gap we close \u2014 so your skills match the salary you\'re asking for.'
     },
     betterSchool: {
@@ -4708,7 +4957,7 @@ function getStep3() {
     },
     salary: {
       q: 'When you ask for a premium salary \u2014 how do you prove you\'re worth it beyond your years of experience?',
-      e: 'Premium pay needs **premium evidence**. A CV listing schools and years doesn\'t justify a 2X package. What does \u2014 is a **digital portfolio** showing your actual teaching: methods, student results, classroom impact. That\'s how the teachers we work with negotiate their packages \u2014 they don\'t argue for salary, they show why they deserve it. **Jo dikhta hai, voh bikta hai.**'
+      e: 'Premium pay needs **premium evidence**. A CV listing schools and years doesn\'t justify a premium package. What does \u2014 is a **digital portfolio** showing your actual teaching: methods, student results, classroom impact. Strong teachers don\'t just ask for more \u2014 they show why they deserve it. **Jo dikhta hai, voh bikta hai.**'
     },
     betterSchool: {
       q: 'When you applied to a school you really wanted but didn\'t get a call back \u2014 what do you think the principal saw on your CV that made them say no?',
@@ -4738,19 +4987,19 @@ function getStep4Network() {
   var v = {
     abroad: {
       q: 'If a school in Dubai or the US wanted to hire you tomorrow \u2014 how would they know you exist? How does an Indian teacher even get on their radar?',
-      e: 'That\'s the hardest part of going abroad \u2014 visibility. Job portals are crowded with thousands of applicants. The teachers we\'ve placed abroad got there through **direct relationships** \u2014 with principals and HODs at international schools in the US, UAE, UK, Singapore. We don\'t just train you; we **introduce you** to the people who hire.'
+      e: 'That\'s the hardest part of going abroad \u2014 visibility. Job portals are crowded with thousands of applicants. What helps is being part of a **professional community** of educators and school leaders from the US, UAE, UK and Singapore \u2014 and having a **portfolio that speaks for you** when you apply. That\'s what we help you build.'
     },
     salary: {
-      q: 'Premium-pay schools \u2014 how do you currently hear about openings there? When a 2-lakh role opens up, does it even get posted publicly?',
-      e: 'Most premium roles don\'t get posted publicly \u2014 they get filled through **referrals and direct networks**. The teachers earning 1.5-3 lakhs a month aren\'t applying through portals \u2014 they\'re being introduced. We connect you to **recruitment heads at premium-pay schools** \u2014 so you\'re in the conversation before the role is even posted.'
+      q: 'Schools that pay well \u2014 how do you currently hear about openings there? Do those roles always get posted publicly?',
+      e: 'Many good roles get filled through **referrals and professional networks**, not portals. Through Suraasa you become part of a **community of educators and school leaders** \u2014 so people know your work, and you have the portfolio to back it up when a role opens.'
     },
     betterSchool: {
       q: 'How many principals or hiring heads at the top schools in your city do you have direct contact with right now? On your phone?',
-      e: 'Most teachers \u2014 zero or one. That\'s the gap. Top schools \u2014 IB, Cambridge, premium CBSE \u2014 don\'t hire from job portals; they hire from **trusted networks**. We connect you to principals at the schools you\'re targeting in your city and across India \u2014 so you\'re not applying cold, you\'re being introduced.'
+      e: 'Most teachers \u2014 zero or one. That\'s the gap. Top schools \u2014 IB, Cambridge, premium CBSE \u2014 often hire through **trusted networks**. Through Suraasa you join a **community of teachers, coordinators and school leaders**, and build a portfolio that gets noticed \u2014 so you\'re not just one more CV.'
     },
     upskill: {
       q: 'Once you upskill \u2014 how do you connect with other educators doing the same thing? Who shares the new ideas, the new openings with you?',
-      e: 'Most teachers upskill in isolation \u2014 alone in their school. That\'s why upskilling rarely converts to bigger opportunities. Our community is the **broader teaching network** \u2014 coordinators, HODs, principals who actively share what\'s working and who\'s hiring. You don\'t just upskill \u2014 you **plug into a network** of teachers growing alongside you.'
+      e: 'Most teachers upskill in isolation \u2014 alone in their school. That\'s why upskilling rarely converts to bigger opportunities. Our community is the **broader teaching network** \u2014 coordinators, HODs, principals who actively share what\'s working. You don\'t just upskill \u2014 you **plug into a network** of teachers growing alongside you.'
     }
   }[g];
 
@@ -4768,8 +5017,8 @@ function getMentorPitch() {
   var n = '{n}';
 
   var mentorSpec = {
-    abroad: 'specifically in moving teachers from India to international schools abroad \u2014 many of their teachers are now in the US, UAE, UK',
-    salary: 'in helping teachers unlock significantly stronger packages \u2014 many of their teachers crossed 1.5-2X their previous salary within 6-12 months',
+    abroad: 'specifically in moving teachers from India to international schools abroad \u2014 they know what schools abroad look for',
+    salary: 'in helping teachers unlock significantly stronger packages \u2014 and what schools that pay well expect',
     betterSchool: 'in helping teachers transition to top schools \u2014 IB, Cambridge, premium CBSE \u2014 across India',
     upskill: 'in matching teachers to the right upskilling programs \u2014 pedagogy, technology, classroom innovation'
   };
@@ -4777,8 +5026,8 @@ function getMentorPitch() {
   var spec = g ? (mentorSpec[g] || 'across various career paths in teaching') : 'across various career paths in teaching';
 
   var outcomeLine = mode === 'experienced' ?
-    'Many have transitioned into international schools \u2014 or premium curriculum roles in India \u2014 with **significantly stronger compensation**.' :
-    'Many are now placed at international schools or premium curriculum roles in India \u2014 with packages that took most teachers a decade to reach.';
+    'They know **what top schools are looking for right now**.' :
+    'They know **what top schools look for in teachers who are starting out**.';
 
   var benefits = mode === 'experienced' ?
     'In this personalised 30-45 minute session, [Mentor Name] will:\n\n**Build a career roadmap** tailored specifically to your goals.\n\n**Guide you** on which Suraasa program aligns best with your profile.\n\n**Show you what top schools are looking for right now** \u2014 in skills and qualifications.\n\nAnd **leave you with clear, actionable next steps** to accelerate your growth.' :
@@ -7461,6 +7710,1367 @@ document.addEventListener('keydown', function(e){
   if (e.key==='ArrowRight') { nextStep(); e.preventDefault(); }
   if (e.key==='ArrowLeft') { prevStep(); e.preventDefault(); }
 });
+
+/* ===== Objection bank (QA-reviewed, 56 entries) — shared with the standalone Objection Handler ===== */
+var OBJ_CATS=[["all","All"],["money","Fees & money"],["family","Family & deciding"],["job","Jobs & salary"],["time","Time & effort"],["trust","Trust"],["skills","Already qualified"],["curric","IB & Cambridge"],["elig","Eligibility"],["session","Session & format"],["exit","Exit politely"]];
+var OBJ_DATA=[
+{i:"think",c:"family",t:"Let me think about it",h:["i will think","need time to decide","sochna hai","soch ke batati hu","sochungi","sochenge","i'll get back to you","let me see","dekhte hain","give me some time","need some time"],
+ m:"Almost never a final no. There is a specific worry they have not said yet, usually fees or family.",
+ s:"Of course, Ma'am. Tell me one thing so I can help: what exactly do you want to think over?",
+ y:"Of course, Ma'am, this is a big decision. So I can actually help, what exactly do you want to think over: the fees, your family, the time, or whether this is right for you?",
+ a:"Is it the fees, family, time, or whether this fits your goal?",
+ p:"That's completely fine. The session doesn't commit you to anything. It only gives you clear facts to think with. Would [slot 1] or [slot 2] work?",
+ n:["Sure ma'am, take your time (and hang up)","Offers end today, decide now"],r:["husband","fee-high","whatsapp"]},
+
+{i:"husband",c:"family",t:"I need to ask my husband",h:["speak to my husband","talk to husband","discuss with husband","pati se puchna hai","pati se baat","husband se puchna","family se baat karni hai","discuss with family","ghar pe baat","ghar me puchna","family se puchna","ask my family","spouse"],
+ m:"Could be three things. A specific question means a real joint decision. A vague reply right after the fee means it's their own doubt. A flat tone with no questions is a polite no.",
+ s:"That's how it should be, Ma'am. When you talk to him tonight, what do you think his first question will be?",
+ y:"That's how it should be, Ma'am. When you talk to him tonight, what do you think his first question will be? Most husbands don't say no. The decision just stays pending because one question couldn't be answered. So let's have him join the mentor session and ask directly.",
+ a:"What do you think his first question will be? (Then stay quiet and listen.)",
+ p:"If the answer is vague: \"Keeping him aside for a minute, is this the right path for where you want to be in two years?\" If it's flat: \"It's completely okay if the answer is no. Where are you honestly at?\"",
+ b:"Let's pick a time when you're both free. Would [slot 1] or [slot 2] work for him?",
+ n:["Don't you take your own decisions?","Your husband will understand","Ask your family for the money"],r:["parents","think","fee-high"]},
+
+{i:"parents",c:"family",t:"My parents will decide / won't pay",h:["parents won't pay","parents se puchna","mummy papa","father will decide","papa se puchna","first get a job then course","family won't allow","in laws","sasural"],
+ m:"They may depend on family for money, or the family wants a job first. Find out which before you respond.",
+ s:"I understand, Ma'am. What will your parents want to know first?",
+ y:"I understand, Ma'am, and it's right to include them. What will they want to know first? Let's make sure they hear it clearly, so you don't have to explain everything alone. They're welcome to join the mentor session.",
+ a:"What's their main concern: the money, or a job first?",
+ p:"If they've clearly said job first, respect that: \"That makes sense. When the time is right, we're here.\" Note a callback and move on.",
+ b:"Which time suits your family better, [slot 1] or [slot 2]?",
+ n:["Take a loan from your family","Your parents don't understand today's market"],r:["husband","want-job","fee-high"]},
+
+{i:"whatsapp",c:"family",t:"Just send the details on WhatsApp",h:["send on whatsapp","whatsapp pe bhej do","send brochure","send me the brochure","send details","mail me","email me","bhej dijiye","message me","share details","i will see and let you know"],
+ m:"Usually a soft no. If you send it without a next step, the lead normally goes quiet.",
+ s:"Yes, I'll send it right now. What specifically do you want to check in it?",
+ y:"Yes Ma'am, I'll send it right now. A brochure can't tell you what fits your profile though, and that's what the mentor session is for. So you don't lose this, let's fix the time now and you can read it before then.",
+ a:"What specifically do you want to check in the details?",
+ p:"Sure. I'll send it now and call you back at [time] to take your questions. Does that time work?",
+ b:"I'll send it now. Shall I keep [slot 1] or [slot 2] for your session?",
+ n:["Okay ma'am, I'll send it (with no next step)"],r:["think","callback"]},
+
+{i:"callback",c:"family",t:"I'm busy, call me later",h:["call later","call me later","in class","busy right now","baad me call","baad mein call karna","abhi busy","driving","in a meeting","can't talk now","not a good time","abhi nahi baat kar sakti"],
+ m:"Often it really is a bad moment. Don't pitch. Get an exact time.",
+ s:"No problem, Ma'am. What time today or tomorrow is good for you?",
+ y:"No problem at all, Ma'am. I don't want to disturb you. What exact time works for a ten minute call, later today or tomorrow?",
+ a:"Should I call at [time] today, or tomorrow?",
+ p:"If they won't give a time: \"I'll try tomorrow evening. If that's not a good time, just message me.\" Log it in the CRM.",
+ b:"Noted, I'll call you at [time]. Thank you, Ma'am.",
+ n:["It will just take two minutes (if they're driving or teaching)"],r:["not-now","whatsapp"]},
+
+{i:"not-now",c:"family",t:"Not now, maybe later",h:["after exams","next month","next year","maybe later","not right now","abhi nahi","baad me dekhenge","after the session ends","after my exams","after vacation","not this year","later"],
+ m:"Could be real timing, or low priority. Find out what would change by then.",
+ s:"That's fair, Ma'am. What will be different by then?",
+ y:"That's fair, Ma'am. Can I ask, what will be different by then? The session doesn't commit you to starting now. It just tells you where you stand, so when the time is right you already have a plan.",
+ a:"If your plan stays the same for another year, how would you feel about that?",
+ p:"Understood. Shall I call you back on [date] so it doesn't get lost?",
+ n:["Prices are going up next month (unless it's officially confirmed)","This offer ends today (unless it's officially confirmed)"],r:["think","callback"]},
+
+{i:"festival",c:"family",t:"I'm busy, let's do the session after the festival",h:["session after the festival","session after diwali","session after festival","busy for diwali","busy with festival","busy with diwali","diwali preparations","festival preparations","call me after the festival","it's festival time","after the festival","after festival","festival time","festive season","festival ke baad","tyohar ke baad","diwali","after diwali","diwali ke baad","eid","eid ke baad","christmas","after christmas","new year","pongal","onam","holi","durga puja","puja","navratri","dussehra","ganpati","ganesh chaturthi","going home for the festival","going to my hometown","gaon ja rahi","gaon ja raha","family function","guests at home","festival holidays","school closed for festival"],
+ m:"Often true, because home, travel and guests take over for a few days. Empathise first, then give a reason to meet before the festival, and leave the decision with them.",
+ s:"I completely understand, Ma'am. Festivals are a busy time. How about we look at a slot that works around your festival preparations?",
+ y:"I completely understand, Ma'am. Festivals are busy. We have limited slots with senior mentors right now, plus some early-bird benefits, and slots may get tighter after the festival. How about a slot that works around your preparations? You're free to make all your decisions after the festival.",
+ a:"Which time works best around your festival preparations?",
+ p:"No problem, Ma'am. I'll call you on [date] at [time], after the festival. Is that okay?",
+ b:"Would [slot 1] or [slot 2] work around your festival preparations?",
+ n:["Naming an offer, amount or deadline that isn't officially confirmed","Pressing a time they've said clashes with the festival","Guessing which festival they celebrate"],r:["not-now","cant-attend","scholarship"]},
+
+{i:"fee-ask",c:"money",t:"What is the fee? Just tell me first",h:["how much","how much does it cost","kitni fees","kitna paisa","fees kya hai","fee kitni hai","cost","price","what is the cost","fees batao","charges","kitna lagega","kitna kharcha"],
+ m:"They're checking if you'll be straight, or if there's a trap. Dodging here creates distrust.",
+ s:"Sure. Programs run from roughly ₹67,000 to ₹3 lakh by pathway, with monthly options that typically start around ₹4,000 to ₹7,000.",
+ y:"Sure, Ma'am. Programs run from roughly ₹67,000 to ₹3 lakh depending on the pathway, and monthly options typically start around ₹4,000 to ₹7,000. Your exact figure depends on your profile, and the mentor will map that with you.",
+ a:"First let me check the right pathway for you. How many years have you been teaching?",
+ p:"I'd rather not guess your exact figure and have it change. The mentor will give you the exact number. The range I gave you is honest.",
+ n:["It depends (as your full answer)","The mentor will tell you (with no number)","An exact fee before you know the pathway"],r:["fee-high","emi","scholarship"]},
+
+{i:"fee-high",c:"money",t:"It's too expensive / out of my budget",h:["too costly","too expensive","mehenga","bahut mehenga","mehnga hai","out of budget","budget nahi hai","can't afford","afford nahi","fees are high","fees zyada hai","more than b.ed","more than bed fees","paise nahi hai","itna paisa nahi"],
+ m:"Value isn't clear yet, or there's a real limit. Don't jump to EMI. First find out which.",
+ s:"I understand, Ma'am. What would feel manageable for you each month?",
+ y:"I understand, Ma'am. This is a real decision for any teacher, and I don't want you to stretch yourself. Before we talk numbers, what would feel manageable each month, and what would this need to change for you to make it worthwhile?",
+ a:"What monthly amount would feel manageable for you?",
+ p:"Only now mention monthly options: \"Monthly options typically start around ₹4,000 to ₹7,000, and the mentor can check what you're eligible for.\" If they repeat the limit a second time, stop selling and ask: \"What needs to change, and when?\"",
+ n:["If you want growth you'll have to invest (said with no empathy)","Take tuitions to pay for it","A fourth or fifth push after they've stated a real limit"],r:["emi","salary-low","roi"]},
+
+{i:"salary-low",c:"money",t:"My salary is too low for this",h:["salary is only","i earn only","low salary","salary kam hai","kam salary","20k salary","15000 salary","25k salary","can't manage on my salary","teachers don't earn this much"],
+ m:"Often the same reason they're calling: their pay isn't growing. Respect the limit, and don't promise a salary.",
+ s:"I hear you, Ma'am. Pay is often exactly why teachers speak to us. What salary would feel fair for your work?",
+ y:"I hear you, Ma'am, and that's often exactly why teachers speak to us. I won't promise you a salary, because that depends on the school, city and subject. What I can say is the mentor will show you what's realistic for your profile, and whether this makes sense for you right now.",
+ a:"What salary would feel fair for your experience today?",
+ p:"If money is truly not possible now: \"I respect that. What needs to change, and when? I'll call you back then.\"",
+ n:["You'll earn this back in a few months","You'll get ₹60–80k in six months"],r:["fee-high","emi","salary-after"]},
+
+{i:"emi",c:"money",t:"Is EMI available? Can I pay monthly?",h:["emi","installment","monthly payment","kist","kisht","loan","one time or installment","can i pay in parts","down payment","no cost emi"],
+ m:"This is a buying signal. They're working out whether it's possible.",
+ s:"Yes, monthly options are available, typically starting around ₹4,000 to ₹7,000 depending on the program.",
+ y:"Yes, Ma'am, monthly options are available, typically starting around ₹4,000 to ₹7,000 depending on the program. The mentor will show the exact plan and what you need for it, so there are no surprises.",
+ a:"Does a monthly amount in that range sound manageable?",
+ p:"The exact EMI, tenure and paperwork depend on your pathway and the finance process. The mentor will take you through that properly.",
+ n:["No interest for sure (unless it's confirmed for that plan)","EMI approval is guaranteed"],r:["fee-ask","scholarship"]},
+
+{i:"scholarship",c:"money",t:"Any discount or scholarship?",h:["discount","scholarship","offer","kuch kam ho sakta","fee kam","concession","festive offer","festival offer","festival discount","diwali offer","any offer","less fees"],
+ m:"Interested, and testing how firm the price is. Don't sound like the price is negotiable.",
+ s:"Scholarships exist for eligible teachers. The mentor checks that for your profile in the session.",
+ y:"Scholarships are available for eligible teachers, Ma'am. I can't promise an amount, because it depends on your profile. The mentor will check what you qualify for in the session.",
+ a:"Apart from the fee, is there anything else you'd want answered in the session?",
+ p:"I'd rather not quote an amount and have it turn out wrong for you. The mentor can confirm it on the call.",
+ n:["You'll definitely get a scholarship","A specific scholarship amount","This price is only for today"],r:["fee-ask","emi"]},
+
+{i:"roi",c:"money",t:"Is it worth it? What will I get back?",h:["worth it","worth the money","return on investment","roi","what will i get","kya milega","fayda kya hai","what's the benefit","is it useful","why should i invest"],
+ m:"They want to know what changes for them, in real terms. This often comes from your best leads.",
+ s:"Fair question. What would need to change for you to call it worth it?",
+ y:"Fair question, Ma'am. Honestly, it's only worth it if it moves you toward your goal. What you build is real teaching skill plus proof a school can check, so you're not just another CV. What would need to change in your career for you to call this worth it?",
+ e:"Fair question, Ma'am. With your experience, it isn't worth it just for more learning. It's worth it if it turns what you already do into proof a better school can check, and gives them a reason to pick you. What would need to change for you to call this worth it?",
+ a:"What would need to change for you to call this worth it?",
+ p:"The mentor can show you what teachers with a similar profile have done, as real examples and not promises.",
+ n:["You'll earn in lakhs","You'll earn back the money in months","Any salary figure as a promise"],r:["salary-after","fee-high","already-skills"]},
+
+{i:"guarantee",c:"job",t:"Is the job guaranteed? 100% placement?",h:["100 percent placement","placement guarantee","job guarantee","job milegi","job milegi kya","naukri milegi","will i get a job","guaranteed job","placement milega","surety","pakka job","sure job"],
+ m:"They've probably been let down before. They're testing whether you'll over-promise.",
+ s:"No, Ma'am. Nobody can honestly guarantee a job, and I'd be careful with anyone who says yes.",
+ y:"No, Ma'am, and I'd be careful with anyone who says yes, because the school makes the final decision. Here's what we do control: the skills you build, the proof of your work, and your interview preparation. What you control is doing the work and how you perform. That's the honest deal.",
+ a:"In the last six months, how many schools have you applied to? How many replied?",
+ p:"This works if you put in the work. If you can't give it the hours right now, tell me and we'll talk about timing instead. The mentor will show exactly what career support is included, and what isn't.",
+ n:["Yes, 100% placement","Interviews are guaranteed","We help you get hired","Any placement percentage"],r:["want-job","job-direct","salary-after"]},
+
+{i:"want-job",c:"job",t:"I want a job, not a course",h:["only want a job","i just want a job","direct placement","direct job","sirf job chahiye","mujhe job chahiye","naukri chahiye","need a job urgently","no course","don't want to study","no training","padhai nahi karni"],
+ m:"The ad or form made them expect a job. Correct this kindly and early, or the session will be wasted.",
+ s:"Thanks for telling me, Ma'am. Let me be honest: we help teachers grow, we don't hand out jobs directly.",
+ y:"Thanks for telling me, Ma'am, and I'll be honest with you. We're an upskilling platform for teachers, so we won't hand you a job directly. We help you build the skills and proof schools look for. If that's useful, the mentor can map it out. If you only need a job right now, I don't want to waste your time.",
+ a:"If building your profile got you to a better school, would you be open to that? Or do you only need a job right now?",
+ p:"If it's job only: \"I understand, and I won't oversell something that doesn't fit. Thank you for being straight with me.\" Don't book a session.",
+ n:["Let's see if it's possible (leaving them hoping for direct placement)","We'll connect you with schools"],r:["guarantee","job-direct","online-job"]},
+
+{i:"job-direct",c:"job",t:"Do you give jobs? Are you a placement agency?",h:["placement agency","placement company","do you hire","hiring teachers","vacancy","recruitment","are you hiring","job opening","you hire teachers or train","job portal","teaching job available"],
+ m:"They can't tell what Suraasa is, and need the right picture before anything else.",
+ s:"We're not a placement agency. Suraasa is a teacher upskilling platform.",
+ y:"No, Ma'am, we're not a placement agency and we're not hiring. Suraasa is a teacher upskilling platform. We help teachers build international-standard skills and proof of their teaching, so they can compete for better roles. The mentor will explain exactly what career support comes with it.",
+ a:"What made you reach out to us? What are you hoping to change?",
+ p:"If they only want a vacancy, be honest that this isn't what we do, and end the call kindly.",
+ n:["We're like Naukri for teachers","We place teachers in premium schools","We connect you with schools"],r:["what-suraasa","want-job","guarantee"]},
+
+{i:"how-soon",c:"job",t:"How soon will I get a job?",h:["how soon","how many months for job","kitne time me job","when will i get job","timeline for job","job kab milegi","after how many months"],
+ m:"There's pressure on them, or they want a date they can plan around.",
+ s:"I can't honestly give you a date, because it depends on your profile and the schools hiring.",
+ y:"I can't honestly give you a date, Ma'am, and I won't guess. It depends on your subject, your city, your profile and which schools are hiring. What's your own timeline? The mentor can tell you what's realistic for you.",
+ a:"By when do you want to make this move, and what's driving that?",
+ p:"If they need work within weeks, this may not be the right fit right now. Say that honestly.",
+ n:["In 3 months","In 6 months you'll get ₹60–80k"],r:["guarantee","salary-after"]},
+
+{i:"salary-after",c:"job",t:"What salary will I get after this?",h:["how much salary","kitni salary","salary kitni milegi","package","pay scale","how much can i earn","what will i earn","salary after course","ib school salary","2x salary"],
+ m:"Money is the real driver. Find out their target, but don't promise a number.",
+ s:"That depends on the school, city and subject, so I won't promise a number. What are you aiming for?",
+ y:"I won't promise a number, Ma'am, because it depends on the school, city and subject. International and premium schools generally pay above traditional boards for the same experience, but they expect more too. The mentor can show you realistic ranges for a profile like yours.",
+ a:"What salary would feel right for you, and what's your current salary?",
+ p:"I'd rather give you a real range from the mentor than a nice-sounding number from me.",
+ n:["You'll earn in lakhs","₹60k–₹1L for sure","Any salary as a promise"],r:["roi","how-soon"]},
+
+{i:"abroad",c:"job",t:"Can you get me a job abroad? Dubai, UAE, USA?",h:["teach abroad","dubai","uae","gulf","qatar","usa","us job","uk","singapore","foreign","bahar job","videsh","international job","visa","abroad","relocate","who will do the visa"],
+ m:"They want a believable route, not a dream. Keep it honest about what's realistic.",
+ s:"I can't promise a job or visa abroad, but the mentor can map a realistic route for your profile.",
+ y:"I can't promise a job or a visa abroad, Ma'am, because that's up to the school and the country. Schools abroad want proof you're ready for their curriculum and teaching style, and that's what you'd build with us. Visa usually comes through the employer once a school hires you. Which country are you thinking of?",
+ a:"Which country are you aiming for, and what's your subject?",
+ p:"Requirements differ by country, so the mentor will give you a country-by-country reality check for your subject and experience.",
+ n:["Pick a country, you're eligible","Visa is easy","We will place you abroad"],r:["guarantee","no-ib-exp"]},
+
+{i:"online-job",c:"job",t:"I want online / work-from-home teaching",h:["online job","work from home","wfh","ghar se job","online teaching job","online tutor","part time online","home tutor","side income","freelance","ghar baithe"],
+ m:"They may want a tutoring gig. Be honest early, because this may not be a fit.",
+ s:"Let me check what you mean. Are you looking for an online teaching job, or an online course?",
+ y:"I'll be straight with you, Ma'am. Our work is around in-school teaching careers, not online tutoring or side income. If work from home is the only thing that suits you right now, we may not be the right fit, and I'd rather tell you that now. Would a school role be something you'd consider?",
+ a:"Would a school role, in India or abroad, be something you'd consider?",
+ p:"If it's online only: \"Thanks for being upfront. I don't want to take your time with something that won't fit. Take care.\" Don't book a session.",
+ n:["We'll get you online teaching work","We can check for you (leaving false hope)"],r:["online-offline","want-job"]},
+
+{i:"happy",c:"job",t:"I'm happy in my current school",h:["good school already","happy where i am","satisfied","already working","i have a job","already have a job","settled","don't need growth","no need"],
+ m:"May be true, or they don't see a reason to change yet. Be curious, don't argue.",
+ s:"That's great to hear, Ma'am. What made you reach out to us?",
+ y:"That's great to hear, Ma'am, and I'm not here to move you. Can I ask what made you reach out in the first place? Sometimes teachers are happy today and still want to know what the next step could look like.",
+ a:"Where do you want to be in your career two years from now?",
+ p:"If nothing is pulling them: \"That's completely fine. Thank you for your time, and we're here if that changes.\"",
+ n:["Your school can't give you growth"],r:["not-interested","already-skills"]},
+
+{i:"no-time",c:"time",t:"I don't have time",h:["no time","too busy","time nahi hai","samay nahi","busy with school","school and kids","can't manage time","home and school","bachche","kids at home","time kaha hai","timing issue"],
+ m:"Often it's something else, like money or family. Sometimes it's a genuine schedule problem. Ask first.",
+ s:"I understand, Ma'am. Where does most of your day go right now?",
+ y:"I understand, Ma'am. Most teachers we speak to have school and home to manage too. It's designed for working teachers, at about an hour a day around school timings. In an ordinary week, not your best week, how much time could you honestly protect?",
+ a:"In an ordinary week, how many hours could you honestly protect?",
+ p:"Tell the mentor your actual weekly routine, and they'll tell you honestly whether this works now or later.",
+ n:["It's easy, it won't take any time","You only have one life (said as pressure)"],r:["duration","think","effort"]},
+
+{i:"duration",c:"time",t:"How long is the program? It's too long",h:["how many months","course duration","duration kya hai","how long","kitne mahine","10 months","12 months","one year","too long","short course","1 month course","kitna time lagega"],
+ m:"Wants to know if it fits their life. Don't apologise for the length.",
+ s:"Around 10 to 12 months depending on the pathway, at about an hour a day.",
+ y:"Around 10 to 12 months depending on the pathway, Ma'am, at about an hour a day around school hours. It takes that long because you're practising in your own classroom and building real proof. A one-month certificate can't show that to a school.",
+ a:"Does an hour a day feel doable with your schedule?",
+ p:"The mentor will tell you which pathway suits your goal, and how long that one takes.",
+ n:["It's very easy","Sorry it's so long"],r:["no-time","online-offline"]},
+
+{i:"effort",c:"time",t:"Can I manage this? Will it be too difficult?",h:["difficult","too hard","can i do it","will i manage","assignments","exam","tough","mushkil","laptop","not good with technology","computer nahi aata","tech savvy","studied long ago"],
+ m:"Doubt about themselves, not about Suraasa. Reassure them, without saying it's easy.",
+ s:"Good that you're asking, Ma'am. What part worries you the most?",
+ y:"Good that you're asking, Ma'am. It does take real work, and I won't call it easy. You practise in your own classroom and submit evidence of it, with support along the way. What part worries you the most?",
+ a:"What worries you most: the assignments, the technology, or the time?",
+ p:"Being honest, this works if you work it. The mentor can help you judge whether now is the right time.",
+ n:["It's very easy","Anyone can pass it","You'll get the certificate anyway"],r:["no-time","age"]},
+
+{i:"what-suraasa",c:"trust",t:"What exactly is Suraasa?",h:["what is suraasa","who are you","what do you do","company kya hai","kaun bol raha","what is this","job portal or course","kya karte ho","tell me about suraasa"],
+ m:"They can't place you yet, and they're deciding whether to keep listening.",
+ s:"Suraasa is a global teacher growth platform. We help teachers upskill to international standards.",
+ y:"Suraasa is a global teacher growth platform, Ma'am. We help teachers upskill to international standards and build proof of their teaching, so they can compete for better roles in India and abroad. I'm calling because you showed interest in growing your career.",
+ a:"What made you reach out to us?",
+ p:"We've supported over 5 lakh teachers, and we have training centres inside schools like DSB International and Empyrean.",
+ n:["We're a placement company","We hire teachers"],r:["job-direct","selling","genuine"]},
+
+{i:"selling",c:"trust",t:"Are you selling me a course?",h:["sales call","selling","sell karna","course bech rahe","marketing call","you want me to buy","why are you calling"],
+ m:"They don't want to be pushed. Be honest, and don't deny that programs exist.",
+ s:"Honest answer: we do have paid programs, but my job today is only to understand if one fits you.",
+ y:"Honest answer, Ma'am: yes, we do have paid programs, but the session itself is free and there's no pressure to join. My job is to understand your goal. If a program doesn't fit you, the mentor will say so.",
+ a:"What's the one thing you'd most like to change in your career?",
+ p:"Completely your call. There's no pressure at all. Is it okay if I ask two quick questions, and then you decide?",
+ n:["No no, this is not a course","This is not a sales call"],r:["session-free","what-suraasa"]},
+
+{i:"genuine",c:"trust",t:"Is this genuine? How do I trust you?",h:["fake","fraud","scam","legit","legitimate","real","trust","bharosa","bharosa kaise","is it real","why should i trust","reviews"],
+ m:"They've seen fake courses before. Give them things they can check themselves, not reassurance.",
+ s:"It's right to be careful, Ma'am. Please don't take my word for it. Check it yourself.",
+ y:"It's right to be careful, Ma'am, so please don't just take my word for it. I'll send you real teacher stories and our details so you can check them yourself. We also have training centres inside schools like DSB International and Empyrean. Check everything before you decide anything.",
+ a:"What would you need to see to feel comfortable?",
+ p:"You don't need to trust me today. The session is free, and you can ask the mentor anything directly.",
+ n:["Trust me","Everyone joins us"],r:["recognised","burned","what-suraasa"]},
+
+{i:"recognised",c:"trust",t:"Is the certificate recognised? UGC? Government?",h:["ugc","ugc approved","recognised","recognized","valid","valid abroad","government approved","sarkari","accredited","ofqual","athe","certificate valid","degree","is it a degree"],
+ m:"They've seen certificates employers ignore. Accuracy matters more than impressive words.",
+ s:"It's a UK-regulated professional teaching qualification. It isn't a B.Ed or a UGC degree.",
+ y:"Good question, Ma'am. PgCTL is a UK-regulated professional teaching qualification. It's not a UGC degree or a B.Ed, and it doesn't replace those where a school or state requires them. The mentor will show you the exact details for your pathway so you can verify them yourself.",
+ a:"Where do you plan to use it, in India or abroad?",
+ p:"Please verify it yourself. The mentor will share the awarding body details. If any of it isn't clear, ask them directly.",
+ n:["It's equal to B.Ed","It's government approved","It's accepted everywhere","Pick a country, you're eligible"],r:["bed-diff","ib-logo","genuine"]},
+
+{i:"burned",c:"trust",t:"I paid for a course before and got nothing",h:["already paid","wasted money","cheated","got nothing","did a course before","certificate was useless","past course","bad experience","paisa doob gaya"],
+ m:"Trust is damaged. Listen first. Don't defend or criticise the other course.",
+ s:"I'm sorry that happened, Ma'am. What did they promise you, and what actually happened?",
+ y:"I'm sorry that happened, Ma'am. It makes sense that you're careful now. What did they promise, and what actually happened? I won't promise you a job. Ask the mentor exactly what you'd get and what you wouldn't, and only decide once it's clear.",
+ a:"What did they promise, and where did it go wrong?",
+ p:"Take your time. Please check everything first. You lose nothing by getting clarity in a free session.",
+ n:["That was a bad company, we're different","This time it's guaranteed"],r:["genuine","guarantee"]},
+
+{i:"my-number",c:"trust",t:"Where did you get my number?",h:["how did you get my number","number kaha se","never applied","i didn't fill","didn't register","who gave my number","wrong number","galat number"],
+ m:"They're annoyed or confused. Be calm, and offer to remove them.",
+ s:"Our records show you shared your details with Suraasa. If that's not right, I'll remove you.",
+ y:"Our records show you shared your details with Suraasa, Ma'am. If that's not right, I'm sorry, and I'll happily remove your number. Would you prefer that?",
+ a:"Would you like me to remove your number?",
+ p:"Understood, I'll remove it. Sorry for the disturbance.",
+ x:1,n:["You must have filled the form, ma'am","Arguing about it"],r:["dnd"]},
+
+{i:"spoke-before",c:"trust",t:"I already spoke to someone at Suraasa",h:["already spoke","already talked","someone called me","already attended session","counsellor already","you called yesterday","baar baar call"],
+ m:"Could be a poor earlier experience or an unfinished conversation. Check the CRM first.",
+ s:"Thanks for telling me, Ma'am. Who did you speak with, and how did it go?",
+ y:"Thanks for telling me, Ma'am. Who did you speak with, and what was suggested? I don't want to make you repeat yourself. What's your goal now, and has anything changed since then?",
+ a:"What stopped you from moving ahead last time?",
+ p:"If they've already got a session or an owner, don't double-book. Tell them you'll coordinate with your team.",
+ n:["We've added new offerings (unless that's true)"],r:["dnd","think"]},
+
+{i:"already-skills",c:"skills",t:"I already have these skills, I just need a good school",h:["already have skills","i know all this","already know","i can teach","just need a push","already do this","i don't need training","no need of training","already trained","expert"],
+ m:"They're probably right. The problem is getting in, not their ability. Agree, then move to proof.",
+ s:"I believe you, Ma'am. So what's stopping the right school from seeing that?",
+ y:"I believe you, Ma'am, and that's why I won't list modules. The gap usually isn't skill. It's that a school has no way to see it. Every CV says strong classroom management. What gives a principal a reason to pick you over ten others who are just as good?",
+ a:"Outside your current school, who actually knows how good you are?",
+ p:"Skills get you into the pile. Proof a school can trust gets you picked. That's what the mentor can map for you.",
+ n:["We cover lesson planning, assessment, technology (the module list)","You're missing skills"],r:["own-portfolio","ib-trained","youtube"]},
+
+{i:"own-portfolio",c:"skills",t:"I can document my own work",h:["i'll make my own portfolio","make portfolio myself","document my work","i can do it myself","what skill evidence","why portfolio","i can build it myself"],
+ m:"They've taken \"portfolio\" as paperwork they can do alone. Move past the folder.",
+ s:"You could, and it's a good habit. A folder and being recognised are different things though.",
+ y:"You absolutely could, Ma'am, and it's a good habit. But a folder is you writing about yourself. What a school trusts is proof you didn't give yourself: work checked by an outside body against a standard, and being known for something specific. That's what you can't do alone.",
+ a:"What would you want to be known for as a teacher?",
+ p:"A folder helps when you apply. A trusted reputation gives a school a reason to choose you.",
+ n:["You'll make 50 assignments for a portfolio","The word brand"],r:["already-skills"]},
+
+{i:"ib-trained",c:"skills",t:"I'm experienced. We're already trained on all this",h:["experienced teacher","20 years experience","senior teacher","ib trained","already ib","what does it add","what more","hod","coordinator","veteran"],
+ m:"The content is nothing new to them. They want to know what it adds to their profile.",
+ s:"With your experience, I won't sell you the content. What it adds is recognition beyond your school.",
+ y:"With your experience, Ma'am, I won't sell you the content. You could teach it. The question is who outside your school knows how good you are. This turns that experience into proof people who've never met you can trust, for a bigger role or a better school.",
+ a:"Are you looking to move schools, go abroad, or step into leadership?",
+ p:"You're not a student here. You're an experienced teacher turning your work into recognised proof.",
+ n:["Our modules also cover assessment and feedback","You'll learn the basics"],r:["already-skills","age"]},
+
+{i:"bed-diff",c:"skills",t:"How is this different from B.Ed / M.Ed?",h:["same as bed","difference from bed","b.ed","bed","m.ed","med","ignou","pursuing m.ed","already did b.ed","why not b.ed","is it equal to bed","d.el.ed","deled"],
+ m:"They're placing you on the map they know. Don't run down their degree.",
+ s:"It doesn't replace a B.Ed. B.Ed says you're qualified. This builds and proves how you teach.",
+ y:"It doesn't replace a B.Ed, Ma'am, and it isn't better or worse. A B.Ed says you're qualified to teach, and almost everyone has one. This builds and proves how you teach in practice, in your own classroom. So when everyone has a B.Ed, what makes you stand out?",
+ a:"When everyone applying has a B.Ed, what makes you stand out?",
+ p:"Whether you need a B.Ed for your target schools depends on the school. The mentor can check that against your goal.",
+ n:["PgCTL is better than B.Ed","It's equal to B.Ed","You don't need B.Ed anymore"],r:["no-bed","recognised"]},
+
+{i:"youtube",c:"skills",t:"I can learn this free on YouTube / short workshops",h:["youtube","udemy","free course","free training","diksha","one month course","workshop","webinars are enough","cbse training","school gives training","free me"],
+ m:"They've seen short courses and doubt paying more. Agree that information is free.",
+ s:"You're right, the information is free. What's hard to get is practice, feedback and proof.",
+ y:"You're right, Ma'am, the information is free, and it's useful. What isn't free is someone checking your teaching, giving you feedback, and proof a school can trust. Watching videos doesn't show a principal anything. Have your past workshops changed how schools see you?",
+ a:"Have past workshops changed how schools see you?",
+ p:"Workshops are good for ideas. This is about proving what you can do.",
+ n:["Those courses are useless","Criticising their past certificates"],r:["already-skills","bed-diff"]},
+
+{i:"ib-course",c:"curric",t:"Is this an IB course? Do you give IB training?",h:["ib course","ib training","ib curriculum training","is it ib or cbse","certified ib","ib teacher course","ib certificate"],
+ m:"Teachers think in board names. They want to know if this fits their IB goal.",
+ s:"It isn't an IB board course. It trains the international teaching approach IB schools look for.",
+ y:"Let me be precise, Ma'am. It's not an IB board course. We train the international teaching approach IB and Cambridge classrooms run on, like inquiry-based learning, differentiation and modern assessment. That's what those schools test in interviews and demo classes.",
+ a:"Which grades do you teach, and which curriculum are you aiming for?",
+ p:"The mentor will map which pathway fits your IB goal, and how teachers with your background have entered these schools.",
+ n:["It's an IB certificate","It's from the IB board"],r:["ib-logo","no-ib-exp","ib-get-in"]},
+
+{i:"ib-logo",c:"curric",t:"Does the certificate come from IB? Will it have the IB logo?",h:["ib logo","ib board certificate","from ib","recognised by ib","ib approved","ib recognised","cambridge logo","certificate from cambridge"],
+ m:"This is the sharpest trust test. Be exact.",
+ s:"No, Ma'am. It isn't issued by IB, and no training company's certificate is.",
+ y:"No, Ma'am, it isn't issued by IB, and it won't carry their logo. It's a UK-regulated professional teaching qualification. IB schools don't hire on an IB-issued teacher certificate. They hire teachers who can show international teaching practice, and your proof and demo lesson do that.",
+ a:"Is there a specific school or role you're aiming for?",
+ p:"Please verify it yourself. The mentor will show you the qualification details before you decide anything.",
+ n:["It has the IB logo","It's IB certified","IB accepts it everywhere"],r:["recognised","ib-course"]},
+
+{i:"ib-get-in",c:"curric",t:"How do I get into an IB school?",h:["get into ib","join ib school","why am i not getting ib","what do ib schools ask","ib school requirement","how do teachers get into ib","what do they want"],
+ m:"They want a real route. This is a strong interest signal.",
+ s:"IB schools look at your teaching approach, your evidence, and how you do in the interview and demo.",
+ y:"That's the right question, Ma'am. IB schools look at three things: your teaching approach, evidence of it, like a portfolio and a demo lesson, and how you present in the interview. Qualifications open the door. The demo gets the job. Most teachers struggle in the middle part, because nobody taught them inquiry-based teaching.",
+ a:"What's your subject and city? That tells the mentor which schools to look at.",
+ p:"The realistic route depends on your city, subject and profile, which is what the mentor maps.",
+ n:["We'll get you into an IB school"],r:["no-ib-exp","ib-course"]},
+
+{i:"no-ib-exp",c:"curric",t:"I have no IB / Cambridge experience. Will they take me?",h:["no ib experience","no cambridge experience","cbse teacher to ib","cbse to ib","switch to ib","icse to ib","state board","state board to cbse","will my experience count","experience required"],
+ m:"The catch-22: schools want experience, but nobody gives the first chance.",
+ s:"You've named the exact trap, Ma'am. There's a way through it, but it needs a plan.",
+ y:"You've named the exact trap, Ma'am. Schools want experience, and nobody gives the first chance. Your experience isn't wasted, because your subject knowledge carries over. What you add is the teaching approach and proof of it. The right first role also matters, and that's a planning question.",
+ f:"You've named the exact trap, Ma'am. Schools want experience, and nobody gives the first chance. As a fresher you start with a clean slate. What you can build is the teaching approach and proof of it. The right first role also matters, and that's a planning question.",
+ a:"Which subject and city are you looking at?",
+ p:"I can't promise a school will take you. The mentor will tell you honestly what's realistic for your profile.",
+ n:["You will definitely get in","Experience doesn't matter"],r:["ib-get-in","fresher"]},
+
+{i:"cidtl",c:"curric",t:"Is this like CIDTL / PGCE? Why not do that?",h:["cidtl","cat-1","cat 1","pgce","cambridge certificate","cambridge course","celta","tefl","ibec","category 1 workshop","cache"],
+ m:"They've researched. Respect the other option, and don't run it down.",
+ s:"That's a smart comparison. CIDTL is strong and specific to Cambridge. Ours works across curricula.",
+ y:"That's a smart comparison, Ma'am. CIDTL is Cambridge's own qualification, it's strong, and it's specific to Cambridge classrooms. Ours is a different choice: an international teaching approach that works across curricula, plus your portfolio and interview preparation. If your whole career stays in Cambridge schools, CIDTL is a fair path.",
+ a:"Do you see yourself staying only in Cambridge schools, or keeping your options open?",
+ p:"Let the mentor compare both against your actual goal. You should choose with full information.",
+ n:["CIDTL is not useful","Ours is better than Cambridge's"],r:["ib-course","cambridge-ib"]},
+
+{i:"cambridge-ib",c:"curric",t:"What's the difference between IB, Cambridge and IGCSE?",h:["what is ib","what is cambridge","what is igcse","igcse","cambridge same as ib","does it cover igcse","which curriculum","american curriculum","a levels","ib vs cambridge"],
+ m:"They may be new to this. Never make them feel small for asking.",
+ s:"Both are international curricula. IB is inquiry and skills led. Cambridge is subject led, and IGCSE is part of it.",
+ y:"Good question, Ma'am, people mix these up every day. Both are international curricula. IB is led by inquiry and skills. Cambridge is subject led, and IGCSE is its programme for grades 9 and 10. You don't have to pick a board before you upskill, because both look for a modern teaching approach.",
+ a:"Is your school on one of these, or are you aiming to move to one?",
+ p:"The mentor can show you which of these is a better fit for your subject and city.",
+ n:["A five-minute lecture on curriculum"],r:["ib-course","ib-levels"]},
+
+{i:"ib-levels",c:"curric",t:"Do I need separate PYP / MYP / DP certificates?",h:["pyp","myp","dp","which level","separate certificates","ib levels","do i need category"],
+ m:"They're worried this is one course leading to a maze of extra certificates.",
+ s:"PYP, MYP and DP are IB's levels by grade, not extra certificates you have to buy first.",
+ y:"Good question, Ma'am. PYP, MYP and DP are IB's levels: primary, middle and diploma. Schools place you by the grades you teach. They aren't extra certificates you have to buy first. Tell the mentor your grades and your goal, and they'll clear this up.",
+ a:"Which grades do you teach today?",
+ p:"If a specific school asks for something extra, the mentor can help you check it.",
+ n:["You'll never need anything else"],r:["ib-course","cambridge-ib"]},
+
+{i:"no-bed",c:"elig",t:"I don't have a B.Ed",h:["no b.ed","no bed","without b.ed","without bed","b.ed nahi hai","bed nahi hai","bed nahi kiya","not done b.ed","graduation only","only graduate"],
+ m:"They're expecting rejection. Check experience first. Don't book someone who clearly doesn't meet the bar.",
+ s:"Thanks for telling me, Ma'am. Let me understand your background first. How many years have you taught?",
+ y:"Thanks for telling me, Ma'am. Requirements depend on the school. Some ask for a B.Ed and some don't. Let me understand your background first, so I can tell you honestly whether this makes sense. How many years have you been teaching, and what's your degree?",
+ a:"How many years have you taught, and what's your degree?",
+ p:"If there's no teaching qualification and no relevant experience, use a polite exit. Don't book a session just to fill a slot.",
+ n:["You don't need a B.Ed anywhere","Everyone is eligible"],r:["fresher","bed-diff","not-fit"]},
+
+{i:"fresher",c:"elig",t:"I'm a fresher, I have no experience",h:["fresher","no experience","new teacher","just finished b.ed","first job","no teaching experience","never taught","0 experience"],
+ m:"They worry nobody will take them. Keep it honest about first-job timelines.",
+ s:"Everyone starts somewhere, Ma'am. Are you qualified already, or still studying?",
+ y:"Everyone starts somewhere, Ma'am. What you don't want is to look like every other fresher. Schools look at how you teach, not just your degree. Let me understand what you've done so far, and the mentor can tell you honestly what a realistic first step looks like.",
+ a:"What's your qualification, and what subject do you want to teach?",
+ p:"I can't promise a first job. The mentor can show you what a realistic first move looks like.",
+ n:["You'll get placed straight after this"],r:["no-ib-exp","no-bed"]},
+
+{i:"gap",c:"elig",t:"I've had a career break / I'm a homemaker",h:["career gap","career break","homemaker","housewife","left teaching","gap in career","kids ki wajah se","after marriage","restarting","returning to teaching"],
+ m:"They open the call expecting to be rejected. They need a respectful, honest answer.",
+ s:"You don't need to apologise for that, Ma'am. Many teachers come back after a break.",
+ y:"You don't need to apologise for that, Ma'am. Many teachers come back after a break. Let me understand your background and how long you've been away. The mentor will then give you an honest view of what's possible for you.",
+ a:"How long was the break, and what did you teach before it?",
+ p:"If there's no teaching background and no qualification, use the polite exit.",
+ n:["Everyone is eligible","The gap doesn't matter at all"],r:["age","switcher"]},
+
+{i:"age",c:"elig",t:"I'm too old for this / is there an age limit?",h:["too old","age limit","45 years","50 years","my age","age bar","retire","retirement","at this age","umar","bahut late"],
+ m:"They fear it's too late. Don't flatter them, and don't promise anything.",
+ s:"Your age isn't what the mentor will look at first, Ma'am. Your experience is. What's your goal now?",
+ y:"Your experience is a strength here, Ma'am. Requirements for age vary by school and country, especially abroad, so I won't give you a blanket answer. What are you hoping to do in the next few years? The mentor can give you an honest view for your age and goal.",
+ a:"What do you want the next few years of your career to look like?",
+ p:"If they're close to retirement and don't want a change, respect that and end the call warmly.",
+ n:["Age doesn't matter anywhere","Age limits don't apply abroad"],r:["ib-trained","gap"]},
+
+{i:"switcher",c:"elig",t:"I'm from another field and want to teach",h:["career switch","career change","corporate","engineer","not a teacher","from it","auditor","want to become a teacher","moving into teaching","no teaching background"],
+ m:"They're serious about a switch, but it's a bigger step. Be honest about that.",
+ s:"That's a big move, Ma'am. What's pulling you toward teaching?",
+ y:"That's a big move, Ma'am, and I respect it. Let me understand your degree and why teaching, because the path for a career switcher takes real effort. The mentor will give you an honest answer on what you'd need.",
+ a:"What's your degree, and what's pulling you toward teaching?",
+ p:"If they aren't really planning to teach, use the polite exit.",
+ n:["It's easy to switch","You'll get placed in a school after this"],r:["fresher","gap"]},
+
+{i:"english",c:"elig",t:"My English isn't very good",h:["weak english","english nahi aati","hindi medium","hindi me baat","communication problem","speak in hindi","poor english","english weak"],
+ m:"Self-doubt, or a real communication gap. Assess it honestly. If it's a real gap, use the disqualification talk track.",
+ s:"Thanks for telling me, Ma'am. We can continue in Hindi. Which medium do you teach in?",
+ y:"Thanks for telling me, Ma'am, and we can continue in Hindi if that's easier. Schools usually look at communication early on, so it matters. Which medium do you teach in now, and what kind of school are you aiming for?",
+ a:"Which medium do you teach in, and which schools are you aiming for?",
+ p:"If it's a real gap, use the polite exit under \"Not the right fit right now\".",
+ n:["English doesn't matter"],r:["not-fit"]},
+
+{i:"online-offline",c:"session",t:"Is it online or offline?",h:["online or offline","offline","classes live","recorded","recorded ya live","live classes","centre","center near me","physical classes","tdc","teacher development centre"],
+ m:"The most common opening question. They may mean an online course, or an online job. Clarify first.",
+ s:"Quick check, Ma'am. Do you mean the training, or are you looking for an online teaching job?",
+ y:"Quick check, Ma'am. Do you mean the training, or are you looking for an online teaching job? The training is online, and it works around school hours. We also have offline Teacher Development Centres at some partner school campuses. Which would suit you better?",
+ a:"Do you mean the training, or an online teaching job?",
+ p:"If they meant an online job, go to the online teaching answer. It may not be a fit.",
+ n:["It's 100% online (before checking what they mean)"],r:["online-job","duration"]},
+
+{i:"session-free",c:"session",t:"Is the session free? What is it about?",h:["session free","is it paid","chargeable","what is this session","session kya hai","what will happen in the session","counselling free","how long is the session","kitna time lagega session","why session","free hai kya"],
+ m:"They're checking what they're agreeing to, and if there's a catch.",
+ s:"Yes, it's completely free, Ma'am. It's a one-on-one career roadmap with our mentor.",
+ y:"Yes, Ma'am, it's completely free. It's a one-on-one session with our international mentor on Google Meet. You'll get a career roadmap for your goal and clear next steps. There's no pressure to enrol. Keep up to an hour free, and join from a quiet place with a pen and paper.",
+ a:"What's the one thing you'd most want the mentor to answer for you?",
+ p:"No travel, no cost, no commitment. If it isn't useful, you've lost nothing.",
+ n:["Slots are almost finished (if it isn't true)","It's just 10 minutes"],r:["why-session","selling"]},
+
+{i:"why-session",c:"session",t:"Why a session? Just tell me on the call",h:["tell me now","tell me on call","why mentor","why can't you tell","just tell me","phone pe batao","abhi batao","no need of session","i don't want a session"],
+ m:"They feel you're dodging. Answer what you can first, then explain why the mentor adds value.",
+ s:"Sure, ask me anything now. I'll answer what I can, honestly.",
+ y:"Sure, Ma'am, ask me anything and I'll answer what I can right now. The session isn't to avoid your question. The mentor looks at your full profile and gives you a plan for your goal, which I can't do properly in a quick call. What do you want to know first?",
+ a:"What's the one thing you most want answered right now?",
+ p:"Your call, Ma'am. If it isn't useful, you've lost nothing. Would [slot 1] or [slot 2] work?",
+ n:["The mentor will tell you everything (as a way to dodge)"],r:["session-free","fee-ask"]},
+
+{i:"cant-attend",c:"session",t:"I can't do that time / I'm not sure I can join",h:["can't attend","not available","i have work then","party","wedding","other time","reschedule","change time","can't confirm","try karungi","i'll try to join","maybe i will join"],
+ m:"A \"maybe\" yes is a likely no-show. Don't press for a time that clashes. Get a time they can really keep.",
+ s:"No problem, Ma'am. I want a time you can really join, without rushing. What suits you?",
+ y:"No problem, Ma'am. I don't want you to rush this or join distracted. Let's find a time when you're free, with a quiet place and a laptop or phone. Tell me honestly, which time can you definitely make?",
+ a:"Is there anything that could stop you from joining at that time?",
+ p:"If it's a clash, offer the next realistic slot. Don't push the same time again.",
+ b:"Great, I've noted [slot]. I'll send the link now. Please join on time.",
+ n:["Just try to join","Pressing a slot they've said clashes"],r:["session-free"]},
+
+{i:"not-interested",c:"exit",t:"I'm not interested",h:["not interested","no interest","nahi chahiye","mujhe nahi karna","don't want","don't need","no thanks","interest nahi"],
+ m:"Could be a brush-off in the first seconds, or a real no. Try once, softly. Never argue.",
+ s:"That's completely okay, Ma'am. Can I ask one thing before I go: what made you reach out earlier?",
+ y:"That's completely okay, Ma'am. Before I let you go, can I ask what made you reach out earlier? If something has changed, I won't take more of your time.",
+ a:"Has something changed since you first reached out?",
+ p:"Stop here: \"Completely fair, Ma'am. Thank you for your time. Take care.\" Maximum two attempts.",
+ x:1,n:["A third attempt","Why not? (said with an edge)"],r:["dnd","happy"]},
+
+{i:"dnd",c:"exit",t:"Don't call me again",h:["don't call","do not call","remove my number","stop calling","call mat karo","dobara call","mat karna","block","dnd","harassing","angry"],
+ m:"This is final. Respect it right away.",
+ s:"Understood, Ma'am. I'll remove your number. Sorry for the disturbance.",
+ y:"Understood, Ma'am. I'll remove your number. I'm sorry for the disturbance. Have a good day.",
+ a:"Don't ask anything further. Mark it correctly in the CRM.",
+ p:"Don't try to re-engage. End the call.",
+ x:1,n:["What changed since we last spoke?","Just one minute, ma'am"],r:["my-number"]},
+
+{i:"not-fit",c:"exit",t:"Not the right fit right now (you're disqualifying)",h:["disqualify","disqualification","not eligible","ineligible","weak communication","poor communication","how to end","how to say no","reject politely","not qualified"],
+ m:"This is for you, not the teacher. An honest no protects them and the mentor's time.",
+ s:"Thank you for sharing that, Ma'am. Based on what you've told me, this may not be the right fit today.",
+ y:"Thank you for sharing that, Ma'am. Based on what you've told me, this may not be the right fit at this stage, and I want to respect your time. You can use our free resources on the Suraasa app, and if your situation changes, please reconnect with us.",
+ a:"If it's a communication gap: \"Strengthening your communication will make a big difference, as schools look at it first. I'd focus on that, and you can reconnect with us any time.\"",
+ p:"Stay warm, and don't book a session to soften the no.",
+ x:1,n:["You don't qualify (said flatly)","Booking a session anyway"],r:["no-bed","english"]}
+];
+
+
+/* ============================================================
+   GUIDED CALL FLOW
+   One card at a time: what to say, what to listen for, what to
+   capture, and a button for each way the teacher can answer.
+   Writes into the same T state, so the HubSpot note, outcome
+   screen and WhatsApp library keep working unchanged.
+   ============================================================ */
+
+/* These were referenced by switchMode()/backToCallFromOutcome() but never declared */
+var callStart = null, timerInt = null;
+function tick() {
+  if (!callStart) return;
+  var s = Math.floor((Date.now() - callStart) / 1000);
+  T.callDurationMin = Math.max(1, Math.round(s / 60));
+  var el = document.getElementById('fl-timer');
+  if (el) el.textContent = Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2);
+}
+
+var FL = (function(){
+  var view = 'flow';          // 'flow' | 'classic'
+  var cur = 'o_hello';
+  var hist = [];
+  var proofTab = 'stories';
+  var checks = {};
+  var objState = {q:'', cat:'all', sel:null, list:[], idx:0};
+
+  /* ---------- tiny helpers ---------- */
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function first(){ var n = (T.name || '').trim().split(/\s+/)[0]; return n || ''; }
+  function fx(){ if (!T.fx) T.fx = {}; return T.fx; }
+  function has(csv, v){ return (csv || '').split(',').map(function(x){return x.trim();}).indexOf(v) >= 0; }
+  function isFresh(){ return T.status === 'fresher' || T.exp === '0-2 yrs'; }
+  function track(){ return T.scriptMode === 'experienced' ? 'x' : 'f'; }
+
+  /* Placeholders: filled ones turn green, missing ones stay amber so the setter sees the gap */
+  function fill(v, ph){ return v ? '<span class="fill">' + esc(v) + '</span>' : '<span class="ph">' + esc(ph) + '</span>'; }
+  function fmt(line){
+    var s = esc(line);
+    s = s.replace(/\*\*([^*]+?)\*\*/g, '<b>$1</b>');
+    s = s.replace(/\{n\}/g, function(){ return first() ? esc(first()) : '<span class="ph">name</span>'; });
+    s = s.replace(/\{me\}/g, function(){ return fill(typeof SETTER_NAME !== 'undefined' ? SETTER_NAME : '', 'your name'); });
+    s = s.replace(/\{mentor\}/g, function(){ return fill(T.mentorName, 'Mentor'); });
+    s = s.replace(/\{day\}/g, function(){ return fill(T.sessionDay, 'day'); });
+    s = s.replace(/\{time\}/g, function(){ return fill(T.sessionTime, 'time'); });
+    s = s.replace(/\{bed\}/g, function(){ return has(T.teachingQual, 'B.Ed') ? 'Your B.Ed' : 'Your current qualification'; });
+    s = s.replace(/\[([^\]]+)\]/g, '<span class="ph">$1</span>');
+    return s;
+  }
+
+  /* ---------- option lists (same values the classic view uses) ---------- */
+  var O = {
+    status:[{id:'employed',l:'Currently teaching'},{id:'fresher',l:'Fresher / new'},{id:'school',l:'Coaching / non-school'}],
+    exp:['0-2 yrs','3-5 yrs','6-10 yrs','11-15 yrs','15+ yrs'],
+    subrole:[{id:'senior_teacher',l:'Senior Teacher'},{id:'coordinator',l:'Coordinator'},{id:'hod',l:'HOD'},{id:'vp',l:'Vice Principal'},{id:'principal',l:'Principal'}],
+    subject:['English','Maths','Science','Hindi','Social Studies','Computer Science','Art','Physical Education','EVS','Special Education','Other'],
+    grades:['Pre-primary','Primary (1-5)','Middle (6-8)','Secondary (9-12)'],
+    cur:['CBSE','ICSE','IB','Cambridge/IGCSE','State','Other'],
+    subjectQual:['BA','BSc','BCom','BBA','BCA','MA','MSc','MBA','MCA','PhD','Other'],
+    teachingQual:['B.Ed','Pursuing B.Ed','M.Ed','D.Ed','ECCEd','PTT','NTT','Special Education','Diploma','PhD','None','Other'],
+    goal:[{id:'salary',l:'Salary growth'},{id:'betterSchool',l:'Move to better school'},{id:'abroad',l:'Teach abroad'},{id:'upskill',l:'Stay sharp / upskill'}],
+    studyMode:['Regular','Distance','Mix of both']
+  };
+  var SETTERS = {
+    status:function(v){ setStatus(v); },
+    exp:function(v){ setExp(v); },
+    subrole:function(v){ setSubrole(v); },
+    goal:function(v){ setGoal(v); },
+    subject:function(v){ toggleSubject(v); },
+    grades:function(v){ toggleGrade(v); },
+    cur:function(v){ toggleCur(v); },
+    subjectQual:function(v){ toggleSubjectQual(v); },
+    teachingQual:function(v){ toggleTeachingQual(v); },
+    studyMode:function(v){ fx().studyMode = (fx().studyMode === v ? '' : v); }
+  };
+  var MULTI = {subject:1, grades:1, cur:1, subjectQual:1, teachingQual:1};
+  function valOf(k){ return k === 'studyMode' ? fx().studyMode : T[k]; }
+
+  /* capture widgets */
+  function C(k, l){ return {t:'chips', k:k, l:l}; }
+  function TX(k, l, ph, isFx){ return {t:'text', k:k, l:l, ph:ph, fx:!!isFx}; }
+  var SLOT = [{t:'mentor'}, {t:'pair', a:TX('sessionDay','Day','e.g. Tomorrow / Wed 14 May'), b:TX('sessionTime','Time','e.g. 4:00 PM')}];
+  var CALLBACK = [{t:'pair', a:TX('sessionDay','Callback day','e.g. Friday'), b:TX('sessionTime','Callback time','e.g. 6:30 PM')}];
+
+  function out(id){ return function(){ endCall(id); }; }
+  function objection(id){ return function(){ openObj(id); }; }
+
+  /* ---------- goal-aware content ---------- */
+  var GOAL_PITCH = {
+    abroad:{
+      x:['So I understand you\'re looking to teach in **[country]**. **Are you aware of the requirements to teach abroad?**','The reality is, schools abroad don\'t just want degrees. They want **proof** that you\'re ready for their curriculum and teaching style, and the requirements differ by country.','That\'s why many teachers struggle, and the ones who prepare with **the right framework** do much better.'],
+      f:['So I understand you\'re looking to teach in **[country]**. **Are you aware of what international schools look for in new teachers?**','Schools abroad don\'t hire on degrees alone. They want **proof** that you\'re ready for their curriculum and teaching style.','For a teacher starting out, that\'s actually an **advantage**. You can build the right profile from day one.']
+    },
+    salary:{
+      x:['So you\'re aiming for a **higher salary**. **Do you know what top schools look for before they offer a stronger package?**','When a school pays well, it expects **highly skilled educators who can prove their impact.**','That\'s exactly what we help teachers build, so you stand out when those roles open.'],
+      f:['So you\'re aiming for a **strong starting package**. **Do you know what top schools look for before they pay well, even to new teachers?**','They expect teachers who can **show their impact from day one.**','That\'s exactly what we help new teachers build, so you can **start strong.**']
+    },
+    betterSchool:{
+      x:['You want to **move to a better school**. **Do you know what schools really consider when hiring for premium roles?**','They don\'t go by experience or degrees alone. They look for **modern teaching practices** and **clear evidence of results.**','That\'s where most teachers miss out, and that\'s what we help you build.'],
+      f:['You want to **start at a strong school**. **Do you know what schools consider when hiring new teachers for premium roles?**','They don\'t hire on experience alone. They look for **modern teaching practices** and **the right attitude.**','For a fresher, this is your **biggest opening**. You don\'t carry the baggage of outdated methods.']
+    },
+    upskill:{
+      x:['So you\'re focused on **upskilling**. **Are you aware of the skills international schools value most in teachers today?**','It\'s not just subject knowledge anymore. Schools want teachers skilled in **pedagogy, technology and 21st-century practices.**','The ones who can show **that** get preference.'],
+      f:['So you\'re focused on **upskilling**. **Are you aware of the skills international schools value most in teachers today?**','It\'s not just subject knowledge anymore. Schools want teachers skilled in **pedagogy, technology and 21st-century practices.**','For someone starting out, this is the **perfect time** to learn it the right way.']
+    }
+  };
+
+  var FW = [
+    {name:'Step one: regulatory readiness', v:{
+      abroad:{q:'When you think about teaching abroad, what do you think schools in the US, UK or UAE look for first when they see an Indian teacher\'s profile?',
+        e:['It always starts with the **regulatory piece**: what their system needs to see before you can teach there.','{bed} is excellent for India, but abroad they look for an **international qualification** that shows you understand their curriculum and standards. Requirements differ by country, and that\'s where most teachers get stuck without realising it.','The good news: you already have the foundation. We add the **international layer** on top.']},
+      salary:{q:'When premium schools offer a much stronger package, what do you think they\'re really paying for? It\'s not just years of experience, right?',
+        e:['Premium schools pay for **credentials that signal world-class capability.**','{bed} gets you in the door at many schools, but for premium roles they look for an **international qualification** that shows you can handle their curriculum. It\'s one of the first things they look at.']},
+      betterSchool:{q:'The schools you\'re aiming for: do you know what they actually filter on when 200 CVs come in for one role?',
+        e:['Top schools filter on **credentials first.**','{bed} clears basic eligibility, but top schools want something more: an **international qualification** that tells them you understand modern curriculum. Without it, your CV can get lost in the pile.']},
+      upskill:{q:'When you upskill, how do you make sure it actually counts? How do schools even know you\'ve upskilled?',
+        e:['Upskilling has to be **documented and recognised**, otherwise it stays inside your head and nobody knows.','That\'s why we structure it around a recognised **international qualification**, so when you\'ve done the work you have something concrete to show. {bed} is the base; the international qualification is the proof.']}
+    }},
+    {name:'Step two: advanced skill sets', v:{
+      abroad:{q:'If you walked into a classroom in Dubai or the US tomorrow, what do you think would feel different from your classroom in India?',
+        e:['International classrooms run on **different teaching practices**: inquiry-based learning, technology integration, differentiated instruction.','What works in India may not work abroad. You don\'t have to learn it on the job after you move. **We build these skills before you go**, so you walk in ready.']},
+      salary:{q:'Schools that pay well: what do you think they expect from their teachers that a standard school doesn\'t?',
+        e:['They expect **advanced classroom skills**: pedagogy that drives measurable outcomes, tech integration, evidence-based teaching.','They don\'t hope you\'ll learn these on the job. They want teachers who already have them. **That\'s exactly the gap we close**, so your skills match the salary you\'re asking for.']},
+      betterSchool:{q:'When a top school evaluates a teacher, what would set you apart from the next person with the same degree and similar experience?',
+        e:['Top schools have moved beyond degrees and years. They want **modern teaching practices**: experiential learning, technology in the classroom, evidence of student impact.','On top of your foundation, we build the skills top schools look for, **so your application doesn\'t look like everyone else\'s.**']},
+      upskill:{q:'When you think about upskilling, what specific skills would have the biggest impact on your teaching right now?',
+        e:['The skills that move teachers forward are specific: **pedagogy, technology, classroom management, differentiated instruction.**','You don\'t have to figure out what to learn. **We structure it**, so you learn what schools actually need, not just what\'s nice to know.']}
+    }},
+    {name:'Step three: portfolio', v:{
+      abroad:{q:'When you apply to a school in Dubai or the US, how do you show them what you can do? A CV doesn\'t really show your teaching, right?',
+        e:['Exactly, and that\'s why so many international applications get filtered out. Schools abroad want **evidence**: your lesson plans, your methods, your students\' outcomes.','We help you build a **digital portfolio** that goes with your CV, so a school sees your teaching, not just your years.']},
+      salary:{q:'When you ask for a premium salary, how do you prove you\'re worth it beyond your years of experience?',
+        e:['Premium pay needs **premium evidence.** A CV listing schools and years doesn\'t justify a premium package.','A **digital portfolio** showing your actual teaching does: your methods, your students\' results, your impact. Strong teachers don\'t just ask for more, they show why they deserve it. **Jo dikhta hai, voh bikta hai.**']},
+      betterSchool:{q:'When you applied to a school you really wanted and didn\'t hear back, what do you think the principal saw on your CV?',
+        e:['The CV is the bottleneck. It shows years and titles, but not **the teacher you actually are.**','We help you build a **digital portfolio** that shows your methods, your lesson designs and your impact, so a top school sees the teaching itself. **Jo dikhta hai, voh bikta hai.**']},
+      upskill:{q:'When you upskill, how do you show your school you\'ve upskilled? Right now it\'s invisible, right?',
+        e:['That\'s exactly the problem. You bring new methods into your class, but nobody outside the classroom sees it.','We help you build a **portfolio** that documents it: your lesson plans, reflections and student outcomes. So when promotion conversations happen, you have **proof, not just claims.**']}
+    }},
+    {name:'Step four: network', v:{
+      abroad:{q:'If a school in Dubai or the US were hiring tomorrow, how would they know you exist? How does a teacher from India get on their radar?',
+        e:['That\'s the hardest part of going abroad: **visibility.** Job portals are crowded with thousands of applicants.','What helps is being part of a **professional community** of educators and school leaders from the US, UAE, UK and Singapore, and having a **portfolio that speaks for you** when you apply. That\'s what we help you build.']},
+      salary:{q:'Schools that pay well: how do you hear about openings there? Do those roles always get posted publicly?',
+        e:['Many good roles get filled through **referrals and professional networks**, not portals.','Through Suraasa you become part of a **community of educators and school leaders**, so people know your work, and you have the portfolio to back it up when a role opens.']},
+      betterSchool:{q:'How many principals or senior leaders at the top schools in your city do you know personally right now?',
+        e:['For most teachers it\'s zero or one. That\'s the gap. Top schools often hire through **trusted networks.**','Through Suraasa you join a **community of teachers, coordinators and school leaders**, and build a portfolio that gets noticed, so you\'re not just one more CV.']},
+      upskill:{q:'Once you upskill, how do you connect with other educators doing the same? Who shares new ideas and opportunities with you?',
+        e:['Most teachers upskill **alone, inside their own school.** That\'s why it rarely turns into bigger opportunities.','Our community connects you with **coordinators, HODs and principals** who share what\'s working. You don\'t just upskill, you **grow alongside other teachers.**']}
+    }}
+  ];
+  function fwNodes(i){
+    var step = FW[i], nm = step.name;
+    function pick(){ return step.v[T.goal]; }
+    var q = {stage:'fw', tr:'f', title:nm + ' (ask)',
+      say:function(){
+        var p = pick();
+        var lines = [];
+        if (i === 0) lines.push('At Suraasa we follow a **simple 4-step framework** that has helped thousands of teachers work towards their career goals. It gives you a clear path, so you don\'t stay stuck.');
+        lines.push('**' + nm.charAt(0).toUpperCase() + nm.slice(1) + '.**');
+        lines.push(p ? '**' + p.q + '**' : 'Pick their goal below and the right question appears here.');
+        return lines;
+      },
+      cap:function(){ return T.goal ? [] : [C('goal','Their goal')]; },
+      cue:'Ask, then stop. Let them think. Their answer is your hook for the next card.',
+      next:'fw' + (i + 1) + 'e', nextLabel:'They answered'};
+    var e = {stage:'fw', tr:'f', title:nm + ' (explain)',
+      say:function(){ var p = pick(); return p ? p.e : ['Pick their goal on the previous card.']; },
+      tip:'Use their own words back: "You mentioned ___, that\'s exactly why..."',
+      next: i < 3 ? 'fw' + (i + 2) + 'q' : 'fw_close'};
+    return [q, e];
+  }
+
+  /* ---------- THE FLOW ---------- */
+  var N = {
+    /* ===== OPENING (both tracks) ===== */
+    o_hello:{stage:'open', title:'Open the call',
+      say:['Hello?','**Hi, is this {n}?**'],
+      cue:'Let them speak first. Type their name above if it\'s not filled in.',
+      opts:[{l:'Yes, it\'s them', to:'o_intro'},{l:'Wrong person / not available', to:'o_wrong', cls:'warn'},{l:'No answer', fn:out('dnp'), cls:'end'}]},
+    o_wrong:{stage:'open', title:'Not the right person',
+      say:['Sorry to disturb you. **When would be a good time to reach {n}?**'],
+      cap:CALLBACK,
+      opts:[{l:'Got a callback time', fn:out('cbl')},{l:'Wrong number', fn:out('dq'), cls:'end'}]},
+    o_intro:{stage:'open', title:'Introduce yourself',
+      say:['{n}, hi. Good [morning / afternoon / evening]. **How are you?**','~Mirror warmly: "Great, I\'m very well, thank you."','My name is **{me}** and I work at Suraasa as a **Teacher Career Mentor.**'],
+      cap:function(){ return (typeof SETTER_NAME !== 'undefined' && SETTER_NAME) ? [] : [{t:'setter'}]; },
+      tip:'Always say "Teacher Career Mentor", never advisor or executive.',
+      next:'o_remember'},
+    o_remember:{stage:'open', title:'Do they remember?',
+      say:['{n}, you reached out to us and enquired about **how to grow in your career as a teacher.** **I hope you remember doing that?**'],
+      opts:[{l:'Yes, remembers', to:'o_time'},{l:'Doesn\'t remember', to:'o_crm', cls:'warn'}]},
+    o_crm:{stage:'open', title:'Jog their memory',
+      say:['I see in our system you connected with us about **[what they enquired about]**. **Does that ring a bell?**'],
+      tip:'Check HubSpot for the form, webinar or download they came from, and name it.',
+      opts:[{l:'Yes, now they remember', to:'o_time'},{l:'Still unsure, carry on', to:'o_time'}]},
+    o_time:{stage:'open', title:'Ask for 2–3 minutes',
+      say:function(){ return [track()==='x' ? 'Great. **I hope this is a good time for a quick 2-minute conversation?**' : 'Great. **I hope we can talk for two to three minutes right now?**']; },
+      opts:[{l:'Yes, go ahead', to:'i_inspire'},{l:'Busy right now', to:'o_busy', cls:'warn'}]},
+    o_busy:{stage:'open', title:'They\'re busy',
+      say:['Sure. Before I let you go, **can I know if you\'re looking at upskilling yourself as a teacher?**'],
+      opts:[{l:'Yes, interested', to:'o_callback'},{l:'No, not interested', to:'o_bye', cls:'end'}]},
+    o_callback:{stage:'open', title:'Book a callback',
+      say:['**When can I call you back, so I don\'t disturb you at the wrong time?**'],
+      cap:CALLBACK,
+      opts:[{l:'Callback agreed: log it', fn:out('cbl')}]},
+    o_bye:{stage:'open', title:'Close politely',
+      say:['No problem at all, {n}. Thank you for your time, and have a lovely day.'],
+      opts:[{l:'Log: not interested', fn:out('dq'), cls:'end'},{l:'Log: maybe later', fn:out('think')}]},
+
+    /* ===== DISCOVERY (both tracks) ===== */
+    i_inspire:{stage:'disc', title:'What inspired them',
+      say:['Perfect, thank you.','**So {n}, what inspired you to reach out to us?** What was the main reason?'],
+      cue:'Ask, then stop. Let the silence work. "Hmm", "I see", "got it", never interrupt.',
+      cap:[TX('reason','Their reason, in their words','e.g. wants to move to an IB school', true)],
+      next:'i_role'},
+    i_role:{stage:'disc', title:'Frame your role',
+      say:['Got it. **Thank you for sharing that, {n}.**','As a Teacher Career Mentor, my job is to understand your profile and see how we can help you reach your goal. So I\'d just like to know a few things about you.'],
+      next:'d_status'},
+    d_status:{stage:'disc', title:'Current role',
+      say:['**Could you tell me a little about your current professional role?**'],
+      cap:[C('status','They are')],
+      tip:'Acknowledge their answer briefly before the next question.',
+      next:'d_exp'},
+    d_exp:{stage:'disc', title:'Experience',
+      say:function(){ return [T.status === 'fresher' ? '**Do you have any experience in teaching?**' : '**How many years of experience do you have in teaching?**']; },
+      cap:[C('exp','Experience')],
+      tip:'This picks the script: 0–2 yrs continues with early-career questions, 3+ yrs switches to the senior track.',
+      next:function(){ return track() === 'x' ? 'x_role' : 'f_subject'; },
+      nextLabel:function(){ return track() === 'x' ? 'Next: senior track' : 'Next'; }},
+
+    /* ===== EARLY-CAREER TRACK ===== */
+    f_subject:{stage:'disc', tr:'f', title:'Subject & grades',
+      say:function(){ return [T.status === 'fresher' ? '**Which subject and grades would you like to teach?**' : '**What subject and grades do you handle?**']; },
+      cap:[C('subject','Subject'), C('grades','Grades')], next:'f_cur'},
+    f_cur:{stage:'disc', tr:'f', title:'Curriculum & city',
+      say:['**Which curriculum, and which city are you in?**'],
+      cap:[C('cur','Curriculum'), TX('city','City','e.g. Pune')],
+      tip:'Partner schools for their city show up under Proof → Schools.', next:'f_qual'},
+    f_qual:{stage:'disc', tr:'f', title:'Qualifications',
+      say:['**May I know your qualifications as well?**'],
+      cap:[C('subjectQual','Subject qualification'), C('teachingQual','Teaching qualification')], next:'f_mode'},
+    f_mode:{stage:'disc', tr:'f', title:'Regular or distance',
+      say:['**And was that regular or distance learning?**'],
+      cap:[C('studyMode','Study mode')], next:'f_goal'},
+    f_goal:{stage:'disc', tr:'f', title:'Their goal',
+      say:['So {n}, **what is the main goal you\'re looking to achieve as a teacher this year?**'],
+      cap:[C('goal','Goal')],
+      tip:'The goal decides which pitch and framework lines you get later. Tap the closest one.', next:'f_why'},
+    f_why:{stage:'disc', tr:'f', title:'Why now',
+      say:['That\'s wonderful, {n}. **What motivated you to work on this goal now?**'],
+      cue:'Wait. This answer is gold: family, relocation, salary frustration, burnout.',
+      cap:[TX('whyNow','Why now, in their words','', true)], next:'f_money'},
+    f_money:{stage:'disc', tr:'f', title:'Ask permission on money',
+      say:['Everything you\'ve shared really reflects the effort and thought you\'ve put into your career. And when teachers think about growth, finances naturally become part of that conversation too.','So if you\'re comfortable, I\'d like to understand that side as well, just to see where you are today and where you want to reach. **Is that okay with you?**'],
+      cue:'Slow down here.',
+      opts:[{l:'Okay, comfortable', to:'f_asp'},{l:'Hesitant: skip money questions', to:'p_pitch', cls:'warn', fn:function(){ fx().moneySkip = 'Hesitant to discuss finances'; }}]},
+    f_asp:{stage:'disc', tr:'f', title:'Target package',
+      say:['So tell me, **for the kind of growth you\'re aiming for, what sort of package would feel right to you?**'],
+      cap:[TX('aspSal','Target package','e.g. ₹70,000/month or ₹8.5 LPA')], next:'f_sal'},
+    f_sal:{stage:'disc', tr:'f', title:'Current package',
+      say:['And just so I understand your journey better, **may I ask what your current package looks like?**'],
+      cap:[TX('sal','Current package','e.g. ₹45,000/month')],
+      tip:'Frame it as mapping their journey, not judging it.', next:'p_pitch'},
+
+    p_pitch:{stage:'pitch', tr:'f', title:'What schools want',
+      say:['You know, {n}, schools today look for more than qualifications or years of experience. They look at **how well a teacher can engage students, handle a modern classroom, adapt to different learners and use practical strategies.**','**That\'s exactly where Suraasa helps teachers grow.**'],
+      next:'p_proof'},
+    p_proof:{stage:'pitch', tr:'f', title:'Who we are',
+      say:['We\'re a **global teacher growth platform.** We\'ve worked with **over 650,000 educators across 50+ countries**, and we partner with schools like **Empyrean, GD Goenka, DSB International and Kunskapsskolan.**','And it\'s practical. Teachers **apply strategies in real classrooms** and **build a portfolio of evidence**, so they become **stronger candidates** for better schools, international curricula and leadership roles.'],
+      tip:'If a partner school is in their city, mention it (Proof → Schools).', next:'p_commit'},
+    p_commit:{stage:'pitch', tr:'f', title:'Commitment check',
+      say:['So {n}, let me be honest with you. To actually reach the goal you\'ve shared, **it will take real work.** You\'ll need to invest your **time**, your **effort** and your **finances** in your own career.','Changing the way you teach is real transformation, and that kind of growth doesn\'t happen for free.','So tell me honestly, **how mentally prepared are you right now to invest in your career?**'],
+      cue:'Pause completely after the question.',
+      opts:[{l:'Ready to invest', to:'p_goal', fn:function(){ fx().commit = 'Says ready to invest'; }},
+            {l:'Hesitant', to:'p_goal', cls:'warn', fn:function(){ fx().commit = 'Hesitant about investing'; }},
+            {l:'Asks about fees', fn:objection('fee-ask'), cls:'warn'}]},
+    p_goal:{stage:'pitch', tr:'f', title:'Goal-based pitch',
+      say:function(){ var g = GOAL_PITCH[T.goal]; return g ? g[isFresh() ? 'f' : 'x'] : ['Pick their goal below to load the matching pitch.']; },
+      cap:function(){ return [C('goal', T.goal ? 'Change goal if it shifted' : 'Their goal')]; },
+      tip:'Say it with genuine curiosity, not as a challenge.', next:'fw1q'},
+
+    fw_close:{stage:'fw', tr:'f', title:'Close the framework',
+      say:['These four areas are essential to staying competitive in today\'s education landscape.','**And we have to stay competitive. There\'s no other option. Don\'t you agree?**'],
+      cue:'Wait for the "yes" before moving to the session.',
+      opts:[{l:'Agrees', to:'b_mentor'},{l:'Not convinced', fn:objection(null), cls:'warn'}]},
+
+    b_mentor:{stage:'book', tr:'f', title:'Align with a mentor',
+      say:['So {n}, based on everything you\'ve shared, I\'d like to **align your profile with {mentor}**, whose expertise closely matches your goals.','{mentor} works with teachers who have goals like yours, and knows **what schools are looking for right now.**'],
+      cap:[{t:'mentor'}],
+      tip:'Pick the mentor now so the name fills in on the next cards.', next:'b_value'},
+    b_value:{stage:'book', tr:'f', title:'What the session gives',
+      say:['In this personal **30–45 minute session**, {mentor} will:','-Build a **clear career roadmap** from your current profile','-Guide you on **which Suraasa program** is the right starting point','-Show you **what top schools look for right now** and how to position yourself','-Share **practical next steps** for your growth'],
+      tip:'One benefit at a time. Let each one land.', next:'b_slots'},
+    b_slots:{stage:'book', tr:'f', title:'Priority slot',
+      say:['One important thing, {n}. {mentor} keeps only **a limited number of one-on-one slots each day**, because these are personal discussions.','Based on your profile, **I can recommend your case and request a priority slot for you.** The session is free.','That\'s why I\'d suggest **scheduling it for today or tomorrow**, while slots are open.'],
+      tip:'Quiet urgency, not pressure. Slow down on "today or tomorrow".', next:'b_confirm'},
+    b_confirm:{stage:'book', tr:'f', title:'Lock the slot',
+      say:['To make the most of it, **join from a quiet place with a notebook and pen**, so you can note down what {mentor} shares.','I have a slot at **{time}** on **{day}**. **Can I confirm this for you?**'],
+      cue:'Say it and stop. Don\'t fill the silence.',
+      cap:SLOT,
+      opts:[{l:'Confirmed', to:'b_close'},{l:'Hesitates', to:'b_hes', cls:'warn'},{l:'Raises an objection', fn:objection(null), cls:'warn'}]},
+    b_hes:{stage:'book', tr:'f', title:'They hesitate',
+      say:['No problem at all, {n}. I completely understand.','Since these are one-on-one sessions, slots depend on {mentor}\'s availability. Let me see the **next closest slot** I can request for you.','**When would you be free for 30 minutes? Would [another day / time] work better?**'],
+      cap:SLOT,
+      opts:[{l:'Got a time', to:'b_close'},{l:'"Let me think about it"', fn:objection('think'), cls:'warn'},{l:'Not now: log it', fn:out('think'), cls:'end'}]},
+    b_close:{stage:'wrap', tr:'f', title:'Confirm and thank',
+      say:['**Perfect.** I\'ve booked your session with {mentor} for **{day}** at **{time}**.','Please **join on time**, since this slot has been reserved for you.','Thank you so much for sharing your journey with me today, {n}. It helps {mentor} guide you better. If you have questions, note them down; they\'ll be happy to answer them in the session.','It was great speaking with you, and I look forward to seeing how Suraasa can support your growth.'],
+      tip:'End with a smile in your voice. Send WhatsApp T2 within 2 hours.', next:'w_check'},
+
+    /* ===== SENIOR TRACK ===== */
+    x_role:{stage:'prof', tr:'x', title:'Their role',
+      say:['**So currently, what role are you in at the school?**'],
+      cap:[C('subrole','Role')], next:'x_ack'},
+    x_ack:{stage:'prof', tr:'x', title:'Acknowledge their position',
+      say:function(){
+        var s = T.subrole || 'senior_teacher';
+        if (s === 'coordinator' || s === 'hod') return ['**Interesting.** So your role is **not just classroom teaching.** You\'re also involved in **academic direction and teacher support.**'];
+        if (s === 'vp' || s === 'principal') return ['**That\'s nice**, because **leadership roles see school systems very differently from classroom teachers.**','Now, just to know a little more about your profile...'];
+        var y = {'3-5 yrs':'3 to 5 years','6-10 yrs':'6 to 10 years','11-15 yrs':'11 to 15 years','15+ yrs':'Over 15 years'}[T.exp] || 'That much';
+        return ['**' + y + ' of classroom experience is a very solid journey.**'];
+      },
+      cue:'Say it genuinely, peer to peer, not as flattery.', next:'x_prof1'},
+    x_prof1:{stage:'prof', tr:'x', title:'Subject & grades',
+      say:function(){
+        var s = T.subrole || 'senior_teacher';
+        if (s === 'coordinator' || s === 'hod') return ['**Since you\'re a ' + (s === 'hod' ? 'HOD' : 'coordinator') + ', which grades do you mainly oversee, and which subject?**'];
+        if (s === 'vp' || s === 'principal') return ['**And currently, are you more involved in academic leadership, operations, teacher training or overall school management?**'];
+        return ['**Which subjects and grades are you mainly handling?**'];
+      },
+      cap:function(){
+        var s = T.subrole;
+        if (s === 'vp' || s === 'principal') return [TX('focus','Their main focus','e.g. academics + teacher training', true), C('subject','Subject (if any)')];
+        return [C('subject','Subject'), C('grades','Grades')];
+      }, next:'x_prof2'},
+    x_prof2:{stage:'prof', tr:'x', title:'Qualifications',
+      say:['**What is your subject qualification: BA, BSc, MA, MSc or something else?**','**And which teaching qualifications have you completed: B.Ed, M.Ed or anything else?**'],
+      cap:[C('subjectQual','Subject qualification'), C('teachingQual','Teaching qualification')], next:'x_prof3'},
+    x_prof3:{stage:'prof', tr:'x', title:'Curriculum & city',
+      say:['**Which curriculum are you working with currently: CBSE, ICSE, IB, Cambridge?**','**And which city are you based in right now?**'],
+      cap:[C('cur','Curriculum'), TX('city','City','e.g. Gurgaon')],
+      tip:'No salary questions on this track. The mentor handles money.', next:'x_goal'},
+    x_goal:{stage:'goal', tr:'x', title:'What growth means to them',
+      say:['So **when you think about professional growth for yourself right now… what does that actually mean for you?**'],
+      cue:'Let them answer in their own words. Then tap the closest match.',
+      opts:[{l:'Just upskilling', to:'x_why', fn:function(){ setXGoal('upskill'); }},
+            {l:'Leadership', to:'x_why', fn:function(){ setXGoal('leadership'); }},
+            {l:'International', to:'x_why', fn:function(){ setXGoal('international'); }},
+            {l:'Salary growth', to:'x_why', fn:function(){ setXGoal('salary'); }}]},
+    x_why:{stage:'goal', tr:'x', title:'Why now',
+      say:['**And what made you start thinking about this now specifically?**'],
+      cue:'This is the emotional trigger. Note their words for the mentor.',
+      cap:[TX('whyNow','Why now, in their words','', true)], next:'x_segue'},
+    x_segue:{stage:'goal', tr:'x', title:'Respond to their goal',
+      say:function(){
+        return {
+          upskill:['That makes complete sense. Most experienced educators who connect with us are already doing well. They\'re usually looking to **stay updated, sharpen their practice, or explore newer international approaches.**'],
+          leadership:['Got it. That\'s exactly where **structured international frameworks and professional visibility** start becoming important.'],
+          international:['Understood. What international schools expect today is **very different from traditional hiring.**'],
+          salary:['That\'s a very fair goal. For experienced educators, a stronger package usually comes when **what you bring to the classroom is clearly visible to schools that pay well.** The conversation shifts from years of experience to **demonstrable value.**']
+        }[T.expGoal] || ['Go back and pick what growth means to them.'];
+      }, next:'x_hope'},
+    x_hope:{stage:'goal', tr:'x', title:'What they hoped to find',
+      say:['So {n}, with your level of experience, I\'m sure you\'ve already seen **many trainings and workshops.**','**So what were you hoping to find for yourself this time, when you connected with Suraasa?**'],
+      cue:'Pause. Let them say what\'s actually missing for them.',
+      cap:[TX('hope','What they hope to find','', true)], next:'x_pos1'},
+    x_pos1:{stage:'pitch', tr:'x', title:'The gap',
+      say:['See {n}, most trainings teach concepts. But experienced educators like you already know many of them.','The real challenge senior educators face is **how to stay globally relevant, how to structure their expertise, and how to present their experience in a way premium schools value.**','**That\'s the gap Suraasa works on.**'],
+      next:'x_pos2'},
+    x_pos2:{stage:'pitch', tr:'x', title:'4-step framework',
+      say:['We work with experienced educators through a **4-step growth framework:**','-**Upgrade.** Modern international teaching frameworks, AI integration, advanced assessment and leadership practices.','-**Apply.** Everything is implemented in real classrooms, not just theory.','-**Validate.** Verified evidence of your work: classroom recordings, a teaching portfolio, observation-based evaluations. Not just another certificate.','-**Position.** Being seen for premium schools, leadership roles, international curricula, or stronger credibility where you are.'],
+      tip:'Land the four verbs one at a time. Don\'t race.', next:'x_pos3'},
+    x_pos3:{stage:'pitch', tr:'x', title:'Would you agree?',
+      say:['The conversation is no longer **"can you teach?"** It becomes **"how do you keep evolving and positioning yourself as education changes globally?"**','**Would you agree with that?**'],
+      cue:'A genuine question. Pause and wait.',
+      opts:[{l:'Agrees', to:'x_mentor1'},{l:'Pushes back', fn:objection(null), cls:'warn'}]},
+    x_mentor1:{stage:'book', tr:'x', title:'Why a Senior Mentor',
+      say:['So {n}, with someone at your level, it would be **unfair for me to randomly suggest a program.**','That\'s why we have **Senior Career Mentors**: experienced educators who work specifically with senior teacher and leadership profiles.','**Their role is not to push a course.** It\'s to understand where you are, what you already know and where you want to go, and then **tell you honestly whether Suraasa can add value or not.**'],
+      next:'x_mentor2'},
+    x_mentor2:{stage:'book', tr:'x', title:'Offer the session',
+      say:['So let me **align a one-on-one session for you with a Senior Career Mentor.** They\'ll help you work out what\'s actually worth learning for you, and how educators with your experience are positioning themselves today.','It takes about **35 to 45 minutes**, and their calendars are planned in advance.','**Would a weekday evening work better for you, or a weekend slot?**'],
+      cap:SLOT,
+      opts:[{l:'Picks a slot', to:'x_close'},{l:'Hesitates', to:'x_hes', cls:'warn'},{l:'Raises an objection', fn:objection(null), cls:'warn'}]},
+    x_hes:{stage:'book', tr:'x', title:'They hesitate',
+      say:['**Absolutely fair.** I\'d rather you take the session only if you genuinely feel it could add value.','That\'s why the mentor first understands your profile before recommending anything. Sometimes they even tell educators, **"you already do these things well, focus only on these areas."**','**So would a weekday evening or a weekend work better?**'],
+      cap:SLOT,
+      opts:[{l:'Picks a slot', to:'x_close'},{l:'"Let me think about it"', fn:objection('think'), cls:'warn'},{l:'Not now: log it', fn:out('think'), cls:'end'}]},
+    x_close:{stage:'wrap', tr:'x', title:'Confirm and thank',
+      say:['**Perfect.** I\'ve booked your meeting with {mentor} for **{day}** at **{time}**. Please join on time.','**Thank you so much for sharing all this, {n}.** Your experience and perspective came through clearly, and that helps the mentor go straight to what matters.','If you have any questions, please write them down. The mentor will be happy to address them.','**It was wonderful speaking with you today, {n}.**'],
+      tip:'Peer-level respect. Send WhatsApp T2 within 2 hours.', next:'w_check'},
+
+    /* ===== WRAP (both) ===== */
+    w_check:{stage:'wrap', title:'Before you hang up',
+      say:['Run through this before you end the call.'],
+      cap:[{t:'checklist'}],
+      next:function(){ return '__booked'; }, nextLabel:'Done: log as booked', go:true}
+  };
+  for (var i = 0; i < 4; i++) { var pair = fwNodes(i); N['fw' + (i + 1) + 'q'] = pair[0]; N['fw' + (i + 1) + 'e'] = pair[1]; }
+
+  var STAGES = {
+    f:[['open','Opening','o_hello'],['disc','Discovery','i_inspire'],['pitch','Pitch','p_pitch'],['fw','4-step framework','fw1q'],['book','Booking','b_mentor'],['wrap','Wrap-up','b_close']],
+    x:[['open','Opening','o_hello'],['disc','Discovery','i_inspire'],['prof','Profile','x_role'],['goal','Goal','x_goal'],['pitch','Positioning','x_pos1'],['book','Booking','x_mentor1'],['wrap','Wrap-up','x_close']]
+  };
+
+  function setXGoal(v){
+    T.expGoal = v;
+    if (!T.goal) T.goal = {upskill:'upskill', leadership:'betterSchool', international:'abroad', salary:'salary'}[v] || '';
+  }
+
+  function val(x){ return typeof x === 'function' ? x() : x; }
+
+  /* ---------- render ---------- */
+  function sayHTML(node){
+    var lines = val(node.say) || [];
+    return lines.map(function(l){
+      if (l.charAt(0) === '-') return '<p class="li">' + fmt(l.slice(1)) + '</p>';
+      if (l.charAt(0) === '~') return '<p class="mirror">' + fmt(l.slice(1)) + '</p>';
+      return '<p>' + fmt(l) + '</p>';
+    }).join('');
+  }
+
+  function chipHTML(w){
+    var opts = O[w.k], v = valOf(w.k), multi = MULTI[w.k];
+    return '<div class="fl-chips">' + opts.map(function(o){
+      var id = typeof o === 'string' ? o : o.id, l = typeof o === 'string' ? o : o.l;
+      var on = multi ? has(v, id) : v === id;
+      return '<button class="fl-chip' + (on ? ' on' : '') + '" data-chip="' + esc(w.k) + '" data-v="' + esc(id) + '" aria-pressed="' + on + '">' + esc(l) + '</button>';
+    }).join('') + '</div>';
+  }
+  function textHTML(w){
+    var v = w.fx ? (fx()[w.k] || '') : (T[w.k] || '');
+    return '<label for="fl-in-' + w.k + '">' + esc(w.l) + '</label><input class="fl-inp" id="fl-in-' + w.k + '" data-in="' + esc(w.k) + '" data-fx="' + (w.fx ? 1 : 0) + '" placeholder="' + esc(w.ph || '') + '" value="' + esc(v) + '" autocomplete="off" />';
+  }
+  function mentorList(){
+    var sel = document.getElementById('out-mentor');
+    if (!sel) return [];
+    return Array.prototype.slice.call(sel.options).map(function(o){ return o.value; }).filter(Boolean);
+  }
+  function capHTML(node){
+    var caps = val(node.cap) || [];
+    if (!caps.length) return '';
+    return '<div class="fl-cap">' + caps.map(function(w){
+      if (w.t === 'chips') return '<div class="fl-cap-row"><label>' + esc(w.l) + (MULTI[w.k] ? ' <span style="text-transform:none;letter-spacing:0;font-weight:500">(tap all that apply)</span>' : '') + '</label>' + chipHTML(w) + '</div>';
+      if (w.t === 'text') return '<div class="fl-cap-row">' + textHTML(w) + '</div>';
+      if (w.t === 'pair') return '<div class="fl-cap-2"><div class="fl-cap-row">' + textHTML(w.a) + '</div><div class="fl-cap-row">' + textHTML(w.b) + '</div></div>';
+      if (w.t === 'setter') return '<div class="fl-cap-row"><label for="fl-in-setter">Your name (saved for next time)</label><input class="fl-inp" id="fl-in-setter" data-setter="1" placeholder="e.g. Anurakta" autocomplete="off" /></div>';
+      if (w.t === 'mentor') {
+        var ms = mentorList();
+        return '<div class="fl-cap-row"><label>Mentor</label><div class="fl-chips">' + ms.map(function(m){
+          var on = T.mentorName === m;
+          return '<button class="fl-chip' + (on ? ' on' : '') + '" data-mentor="' + esc(m) + '" aria-pressed="' + on + '">' + esc(m) + '</button>';
+        }).join('') + '</div></div>';
+      }
+      if (w.t === 'checklist') {
+        return '<div class="fl-check">' + CLITEMS.map(function(c, i){
+          return '<label><input type="checkbox" data-check="' + i + '"' + (checks[i] ? ' checked' : '') + '><span>' + esc(c.l) + '<small>' + esc(c.n) + '</small></span></label>';
+        }).join('') + '</div>';
+      }
+      return '';
+    }).join('') + '</div>';
+  }
+
+  function stagesFor(){ return STAGES[track()]; }
+  function stageIdx(id){ var s = stagesFor(); for (var i = 0; i < s.length; i++) if (s[i][0] === id) return i; return -1; }
+
+  function render(){
+    var node = N[cur]; if (!node) return;
+    var st = stagesFor(), si = stageIdx(node.stage);
+    var stName = si >= 0 ? st[si][1] : '';
+    var opts = node.opts || [];
+    var html = '';
+    html += '<div class="fl-stage"><span class="pill">' + esc(stName) + '</span><span>' + esc(node.title || '') + '</span></div>';
+    html += '<section class="fl-say"><div class="fl-saylbl"><i class="ti ti-message-circle"></i>Say this</div><div id="fl-saytext">' + sayHTML(node) + '</div></section>';
+    if (node.cue) html += '<div class="fl-cue"><i class="ti ti-ear"></i><span>' + fmt(node.cue) + '</span></div>';
+    html += capHTML(node);
+    if (opts.length) {
+      html += '<div class="fl-optlbl">What did they say?</div><div class="fl-opts">' + opts.map(function(o, i){
+        return '<button class="fl-opt ' + (o.cls || '') + '" data-opt="' + i + '"><span class="k">' + (i + 1) + '</span><span>' + esc(o.l) + '</span></button>';
+      }).join('') + '</div>';
+    }
+    if (node.tip) html += '<div class="fl-tip"><i class="ti ti-bulb"></i><span>' + fmt(node.tip) + '</span></div>';
+    $('fl-card').innerHTML = html;
+
+    /* footer */
+    var nb = $('fl-next');
+    if (node.next) {
+      nb.hidden = false;
+      nb.className = 'fl-next' + (node.go ? ' go' : '');
+      nb.innerHTML = esc(val(node.nextLabel) || (opts.length ? 'Skip' : 'Next')) + ' <i class="ti ti-arrow-right"></i>';
+    } else nb.hidden = true;
+    $('fl-back').disabled = !hist.length;
+    var keys = [];
+    if (opts.length) keys.push('<kbd>1</kbd>–<kbd>' + opts.length + '</kbd> answer');
+    if (node.next) keys.push('<kbd>Enter</kbd> next');
+    if (hist.length) keys.push('<kbd>⌫</kbd> back');
+    keys.push('<kbd>/</kbd> objection');
+    $('fl-keys').innerHTML = keys.join(' &nbsp;·&nbsp; ');
+
+    /* rail + progress */
+    $('fl-rail').innerHTML = '<h4>Call stages</h4>' + st.map(function(s, i){
+      var c = i < si ? 'done' : (i === si ? 'on' : '');
+      return '<button class="fl-stg ' + c + '" data-stage="' + s[2] + '"><span class="dot">' + (i < si ? '<i class="ti ti-check"></i>' : (i + 1)) + '</span>' + esc(s[1]) + '</button>';
+    }).join('') + '<div class="fl-rail-tip"><b>Shortcuts</b><div><span>Next</span><kbd>Enter</kbd></div><div><span>Pick answer</span><kbd>1–4</kbd></div><div><span>Back</span><kbd>⌫</kbd></div><div><span>Objection</span><kbd>/</kbd></div></div>';
+    $('fl-progress').innerHTML = st.map(function(s, i){ return '<span class="' + (i < si ? 'done' : (i === si ? 'on' : '')) + '"></span>'; }).join('');
+    $('fl-track-l').textContent = track() === 'x' ? 'Senior' : 'Early-career';
+    $('fl-main').scrollTop = 0;
+    renderSide();
+  }
+
+  function refreshSay(){ var n = N[cur], el = $('fl-saytext'); if (n && el) el.innerHTML = sayHTML(n); }
+
+  /* ---------- side panel ---------- */
+  var STATUS_L = {employed:'Currently teaching', fresher:'Fresher / new', school:'Coaching / non-school'};
+  var SUB_L = {senior_teacher:'Senior Teacher', coordinator:'Coordinator', hod:'HOD', vp:'Vice Principal', principal:'Principal'};
+  var XGOAL_L = {upskill:'Upskilling', leadership:'Leadership', international:'International', salary:'Salary growth'};
+  function facts(){
+    var f = fx(), x = track() === 'x';
+    var rows = [
+      ['Status', STATUS_L[T.status], 'd_status'],
+      ['Experience', T.exp, 'd_exp'],
+      x ? ['Role', T.subrole && SUB_L[T.subrole], 'x_role'] : null,
+      ['Subject', T.subject, x ? 'x_prof1' : 'f_subject'],
+      ['Grades', T.grades, x ? 'x_prof1' : 'f_subject'],
+      ['Curriculum', T.cur, x ? 'x_prof3' : 'f_cur'],
+      ['City', T.city, x ? 'x_prof3' : 'f_cur'],
+      ['Qualifications', T.qual, x ? 'x_prof2' : 'f_qual'],
+      x ? null : ['Study mode', f.studyMode, 'f_mode'],
+      ['Goal', x ? (XGOAL_L[T.expGoal] || '') : (typeof goalLabelOf === 'function' ? goalLabelOf(T.goal) : T.goal), x ? 'x_goal' : 'f_goal'],
+      ['Why they called', f.reason, 'i_inspire'],
+      ['Why now', f.whyNow, x ? 'x_why' : 'f_why'],
+      x ? ['Hoping to find', f.hope, 'x_hope'] : ['Target pkg', T.aspSal, 'f_asp'],
+      x ? null : ['Current pkg', T.sal || f.moneySkip, 'f_sal'],
+      x ? null : ['Commitment', f.commit, 'p_commit'],
+      ['Mentor', T.mentorName, x ? 'x_mentor2' : 'b_mentor'],
+      ['Slot', [T.sessionDay, T.sessionTime].filter(Boolean).join(', '), x ? 'x_mentor2' : 'b_confirm']
+    ].filter(Boolean);
+    return rows;
+  }
+  function renderSide(){
+    $('fl-facts').innerHTML = facts().map(function(r){
+      return '<button class="fl-fact' + (r[1] ? '' : ' empty') + '" data-jump="' + r[2] + '"><span>' + esc(r[0]) + '</span><b>' + esc(r[1] || 'not yet') + '</b></button>';
+    }).join('');
+    var objs = fx().objs || [];
+    $('fl-objsec').hidden = !objs.length;
+    $('fl-objlog').innerHTML = objs.map(function(o){ return '<span>' + esc(o) + '</span>'; }).join('');
+    var nt = $('fl-notes');
+    if (document.activeElement !== nt) nt.value = T.flowManual || '';
+    renderProof();
+  }
+  var TOPIC_BY_STAGE = {open:'credibility', disc:'trust', prof:'trust', goal:'trust', pitch:'credibility', fw:'credibility', book:'trust', wrap:'trust'};
+  function renderProof(){
+    var n = N[cur];
+    if (n && TOPIC_BY_STAGE[n.stage] && typeof activeTopic !== 'undefined') activeTopic = TOPIC_BY_STAGE[n.stage];
+    var html = '';
+    try {
+      if (proofTab === 'stories') html = renderStories();
+      else if (proofTab === 'schools') html = renderSchools();
+      else html = renderLeaders();
+    } catch (e) { html = '<p style="color:var(--mu)">Not available.</p>'; }
+    $('fl-proof').innerHTML = html;
+    Array.prototype.forEach.call(document.querySelectorAll('#fl-tabs .fl-tab'), function(b){ b.classList.toggle('on', b.getAttribute('data-tab') === proofTab); });
+  }
+
+  /* ---------- navigation ---------- */
+  function go(id){
+    if (id === '__booked') { endCall('booked'); return; }
+    if (!N[id] || id === cur) { if (N[id]) render(); return; }
+    hist.push(cur); cur = id; render();
+  }
+  function back(){ if (!hist.length) return; cur = hist.pop(); render(); }
+  function next(){ var n = N[cur]; if (n && n.next) go(val(n.next)); }
+  function choose(i){
+    var n = N[cur], o = n && n.opts && n.opts[i];
+    if (!o) return;
+    if (o.fn) o.fn();
+    if (o.to) go(o.to); else render();
+  }
+
+  /* ---------- call lifecycle ---------- */
+  function start(){
+    view = 'flow'; cur = 'o_hello'; hist = []; checks = {};
+    T.fx = {}; T.flowManual = '';
+    callStart = Date.now();
+    clearInterval(timerInt); timerInt = setInterval(tick, 1000); tick();
+    $('fl-name').value = T.name || ''; $('fl-phone').value = T.phone || '';
+    show();
+    render();
+  }
+  function show(){
+    ['setup','outcome','wamode','call'].forEach(function(id){ var e = $(id); if (e) e.style.display = 'none'; });
+    if (view === 'classic') {
+      $('flow').style.display = 'none';
+      $('call').style.display = 'grid';
+      var lh = $('lh-name'), lp = $('lh-phone');
+      if (lh) lh.value = T.name || ''; if (lp) lp.value = T.phone || '';
+      try { renderStep(); renderRightPanel(); } catch (e) {}
+    } else {
+      $('call').style.display = 'none';
+      $('flow').style.display = 'grid';
+      $('fl-name').value = T.name || ''; $('fl-phone').value = T.phone || '';
+      render();
+    }
+  }
+  function setView(v){ view = v; show(); }
+
+  var AUTO = '▸ ';
+  function autoNotes(){
+    var f = fx(), L = [];
+    if (track() === 'x' && T.subrole) L.push('Role: ' + (SUB_L[T.subrole] || T.subrole));
+    if (f.focus) L.push('Main focus: ' + f.focus);
+    if (f.reason) L.push('Why they enquired: ' + f.reason);
+    if (T.expGoal) L.push('Growth goal: ' + (XGOAL_L[T.expGoal] || T.expGoal));
+    if (f.whyNow) L.push('Why now: ' + f.whyNow);
+    if (f.hope) L.push('Hoping to find: ' + f.hope);
+    if (f.studyMode) L.push('Study mode: ' + f.studyMode);
+    if (f.moneySkip) L.push(f.moneySkip);
+    if (f.commit) L.push('Commitment: ' + f.commit);
+    if (f.objs && f.objs.length) L.push('Objections raised: ' + f.objs.join('; '));
+    return L.map(function(l){ return AUTO + l; }).join('\n');
+  }
+  function composeNotes(){
+    var a = autoNotes(), m = (T.flowManual || '').trim();
+    T.notes = [a, m].filter(Boolean).join('\n');
+  }
+  function endCall(outcomeId){
+    tick();
+    goToOutcome();
+    if (outcomeId) { try { pickOutcome(outcomeId); } catch (e) {} }
+  }
+
+  /* ---------- objection overlay ---------- */
+  var STOP = new Set("a an the is it i me my we you your to of for and or in on at do does did will can could should would be am are was were this that these those what how why when so but not just only very have has had with from about hai hain ka ki ke ko se me mein ho kya toh to tha thi ye yeh wo woh aap main mujhe hum nahi please ma'am mam sir ji haan".split(' '));
+  var SYN = {mehenga:'expensive',mehnga:'expensive',mahenga:'expensive',costly:'expensive',paisa:'money',paise:'money',pati:'husband',hubby:'husband',mister:'husband',naukri:'job',jobs:'job',placement:'job',placed:'job',fee:'fees',sochna:'think',sochungi:'think',soch:'think',bharosa:'trust',dhokha:'fake',farzi:'fake',ghar:'family',umar:'age',vacancy:'job',budget:'expensive',afford:'expensive',sir:'',certificate:'certificate',certification:'certificate',bachche:'kids',baccha:'kids',videsh:'abroad',bahar:'abroad',tyohar:'festival',tyohaar:'festival',tehwar:'festival',festive:'festival',festivals:'festival'};
+  function onorm(s){ return s.toLowerCase().replace(/b\.ed/g,'bed').replace(/m\.ed/g,'med').replace(/d\.el\.ed/g,'deled').replace(/[’']/g,'').replace(/[^a-z0-9₹\s]/g,' ').replace(/\s+/g,' ').trim(); }
+  function otoks(s){ return onorm(s).split(' ').filter(function(w){ return w && !STOP.has(w); }).map(function(w){ return (w in SYN) ? SYN[w] : w; }).filter(Boolean); }
+  function lev1(a, b){
+    if (Math.abs(a.length - b.length) > 1) return false; var i = 0, j = 0, e = 0;
+    while (i < a.length && j < b.length) { if (a[i] === b[j]) { i++; j++; continue; } if (++e > 1) return false;
+      if (a.length > b.length) i++; else if (b.length > a.length) j++; else { i++; j++; } }
+    return e + (a.length - i) + (b.length - j) <= 1;
+  }
+  var OBJ_BY = {}, CAT_L = {};
+  function prepObj(){
+    if (prepObj.done) return; prepObj.done = 1;
+    OBJ_CATS.forEach(function(c){ CAT_L[c[0]] = c[1]; });
+    OBJ_DATA.forEach(function(o, idx){
+      if (!OBJ_BY[o.i]) OBJ_BY[o.i] = o;
+      o.rank = idx; o.ph = [o.t].concat(o.h || []).map(onorm);
+      o.tT = new Set(otoks(o.t)); o.hT = new Set((o.h || []).reduce(function(a, h){ return a.concat(otoks(h)); }, []));
+    });
+  }
+  function oscore(o, q, qt){
+    var s = 0;
+    if (q.length >= 3) {
+      for (var k = 0; k < o.ph.length; k++) { var p = o.ph[k];
+        if (p === q) { s += 120; break; }
+        if (p.indexOf(q) === 0) s = Math.max(s, 70); else if (p.indexOf(q) >= 0) s = Math.max(s, 55); else if (q.indexOf(p) >= 0 && p.length >= 4) s = Math.max(s, 45 + p.length);
+      }
+    }
+    var hit = 0, all = Array.from(o.tT).concat(Array.from(o.hT));
+    qt.forEach(function(w){
+      var b = 0;
+      if (o.tT.has(w)) b = 14; else if (o.hT.has(w)) b = 11;
+      else all.forEach(function(t){
+        if (w.length >= 3 && t.indexOf(w) === 0) b = Math.max(b, 7);
+        else if (w.length >= 4 && t.length >= 4 && (w.indexOf(t) === 0 || t.indexOf(w) >= 0)) b = Math.max(b, 5);
+        else if (w.length >= 5 && lev1(w, t)) b = Math.max(b, 6);
+      });
+      if (b) hit++; s += b;
+    });
+    if (qt.length > 1 && hit === qt.length) s += 8;
+    return s;
+  }
+  function osearch(){
+    var q = onorm(objState.q), qt = otoks(objState.q);
+    var pool = OBJ_DATA.filter(function(o){ return objState.cat === 'all' || o.c === objState.cat; });
+    if (!q) return pool;
+    return pool.map(function(o){ return {o:o, s:oscore(o, q, qt)}; }).filter(function(r){ return r.s >= 6; })
+      .sort(function(a, b){ return b.s - a.s || a.o.rank - b.o.rank; }).map(function(r){ return r.o; });
+  }
+  function dedupe(list){ var u = {}, r = []; list.forEach(function(o){ if (!u[o.i]) { u[o.i] = 1; r.push(o); } }); return r; }
+
+  function openObj(id){
+    prepObj();
+    objState.q = ''; objState.cat = 'all'; objState.touched = !!id;
+    $('fl-obj-q').value = '';
+    $('fl-obj').hidden = false;
+    refreshObj(id || null);
+    setTimeout(function(){ $('fl-obj-q').focus(); }, 30);
+  }
+  function closeObj(){
+    var o = OBJ_BY[objState.sel];
+    if (o && objState.touched) logObj(o);
+    $('fl-obj').hidden = true; render();
+  }
+  function refreshObj(selId){
+    objState.list = dedupe(osearch());
+    if (selId && OBJ_BY[selId]) objState.sel = selId;
+    else if (!objState.list.some(function(o){ return o.i === objState.sel; })) objState.sel = objState.list[0] ? objState.list[0].i : null;
+    $('fl-obj-cats').innerHTML = OBJ_CATS.map(function(c){ return '<button data-ocat="' + c[0] + '" class="' + (objState.cat === c[0] ? 'on' : '') + '">' + esc(c[1]) + '</button>'; }).join('');
+    $('fl-obj-list').innerHTML = objState.list.length ? objState.list.map(function(o){
+      return '<button data-obj="' + o.i + '" class="' + (o.i === objState.sel ? 'on' : '') + '">' + esc(o.t) + '<small>' + esc(CAT_L[o.c] || '') + '</small></button>';
+    }).join('') : '<div class="none">No saved answer for that. Ask: <b>"Can I ask two quick questions about your profile, so I can answer this properly?"</b> Then offer the mentor session.</div>';
+    renderAns();
+  }
+  function logObj(o){
+    var f = fx(); f.objs = f.objs || [];
+    if (f.objs.indexOf(o.t) < 0) f.objs.push(o.t);
+  }
+  function renderAns(){
+    var o = OBJ_BY[objState.sel], A = $('fl-obj-ans');
+    if (!o) { A.innerHTML = ''; return; }
+    var n = N[cur], st = n ? n.stage : 'disc';
+    var early = (st === 'open' || st === 'disc');
+    var late = (st === 'book' || st === 'wrap');
+    var say, lab;
+    if (early && o.s) { say = o.s; lab = 'Say this first'; }
+    else if (track() === 'x' && o.e) { say = o.e; lab = 'Say this (experienced)'; }
+    else if (track() === 'f' && isFresh() && o.f) { say = o.f; lab = 'Say this (fresher)'; }
+    else { say = o.y; lab = 'Say this'; }
+    var nextLab = o.x ? 'Next' : (early ? 'Then go back to discovery' : (late ? 'Book it' : 'Ask next'));
+    var nextTxt = o.x ? o.a : (late ? (o.b || "Let's take this to the mentor. Would [slot 1] or [slot 2] work for you?") : (o.a || 'Can I ask two quick questions about your profile, so I can answer this properly?'));
+    var h = '<h3>“' + esc(o.t) + '”</h3><div class="mean"><b>Usually means:</b> ' + esc(o.m) + '</div>';
+    h += '<div class="fl-obj-say"><div class="lab"><span>' + lab + '</span><button data-copy="1">Copy</button></div><div class="txt">' + esc(say) + '</div></div>';
+    h += '<div class="fl-obj-blk next"><div class="lab">' + nextLab + '</div>' + esc(nextTxt) + '</div>';
+    if (o.p) h += '<div class="fl-obj-blk"><div class="lab">If they push again</div>' + esc(o.p) + '</div>';
+    if (o.n && o.n.length) h += '<div class="fl-obj-blk never"><div class="lab">Never say</div><ul>' + o.n.map(function(t){ return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>';
+    if (o.x) h += '<div class="fl-obj-blk" style="border-color:var(--rdb)"><b>No booking on this one.</b> End warmly and log it.</div>';
+    if (o.r && o.r.length) h += '<div class="fl-obj-rel">Related: ' + o.r.filter(function(r){ return OBJ_BY[r]; }).map(function(r){ return '<button data-obj="' + r + '">' + esc(OBJ_BY[r].t) + '</button>'; }).join('') + '</div>';
+    A.innerHTML = h; A.scrollTop = 0;
+    A._say = say;
+  }
+
+  /* ---------- events ---------- */
+  function bind(){
+    $('fl-home').onclick = function(){ backToSetup(); };
+    $('fl-end').onclick = function(){ endCall(null); };
+    $('fl-classic').onclick = function(){ setView('classic'); };
+    $('fl-objbtn').onclick = function(){ openObj(null); };
+    $('fl-back').onclick = back;
+    $('fl-next').onclick = next;
+    $('fl-leadbtn').onclick = function(){ $('fl-side').classList.add('open'); };
+    $('fl-side-x').onclick = function(){ $('fl-side').classList.remove('open'); };
+    $('fl-track').onclick = function(){
+      var to = track() === 'x' ? 'fresher' : 'experienced';
+      setScriptMode(to);
+      var n = N[cur];
+      if (n && n.tr && n.tr !== track()) {
+        var st = stagesFor(), si = stageIdx(n.stage);
+        hist.push(cur); cur = si >= 0 ? st[si][2] : 'd_exp';
+        if (N[cur] && N[cur].tr && N[cur].tr !== track()) cur = track() === 'x' ? 'x_role' : 'f_subject';
+      }
+      render();
+    };
+    $('fl-name').oninput = function(){ updateField('name', this.value); refreshSay(); renderSide(); };
+    $('fl-phone').oninput = function(){ updateField('phone', this.value); };
+    $('fl-notes').oninput = function(){ T.flowManual = this.value; };
+
+    $('fl-card').addEventListener('click', function(e){
+      var b = e.target.closest('button'); if (!b) return;
+      if (b.hasAttribute('data-opt')) { choose(+b.getAttribute('data-opt')); return; }
+      if (b.hasAttribute('data-chip')) {
+        var k = b.getAttribute('data-chip'), v = b.getAttribute('data-v');
+        if (!MULTI[k] && k !== 'studyMode' && k !== 'exp' && valOf(k) === v) { /* single-select: tap again keeps it */ }
+        else SETTERS[k](v);
+        render(); return;
+      }
+      if (b.hasAttribute('data-mentor')) {
+        var m = b.getAttribute('data-mentor');
+        T.mentorName = (T.mentorName === m ? '' : m);
+        render(); return;
+      }
+    });
+    $('fl-card').addEventListener('input', function(e){
+      var t = e.target;
+      if (t.hasAttribute('data-in')) {
+        var k = t.getAttribute('data-in');
+        if (t.getAttribute('data-fx') === '1') fx()[k] = t.value; else updateField(k, t.value);
+        refreshSay(); renderSide();
+      } else if (t.hasAttribute('data-setter')) {
+        saveSetterName(t.value); refreshSay();
+      }
+    });
+    $('fl-card').addEventListener('change', function(e){
+      var t = e.target;
+      if (t.hasAttribute('data-check')) checks[t.getAttribute('data-check')] = t.checked;
+    });
+    $('fl-card').addEventListener('keydown', function(e){
+      if (e.key === 'Enter' && e.target.tagName === 'INPUT' && N[cur] && N[cur].next) { e.preventDefault(); e.stopPropagation(); e.target.blur(); next(); }
+    });
+    $('fl-rail').addEventListener('click', function(e){
+      var b = e.target.closest('[data-stage]'); if (b) go(b.getAttribute('data-stage'));
+    });
+    $('fl-facts').addEventListener('click', function(e){
+      var b = e.target.closest('[data-jump]'); if (!b) return;
+      var id = b.getAttribute('data-jump');
+      $('fl-side').classList.remove('open');
+      if (N[id]) go(id);
+    });
+    $('fl-tabs').addEventListener('click', function(e){
+      var b = e.target.closest('[data-tab]'); if (!b) return;
+      proofTab = b.getAttribute('data-tab'); renderProof();
+    });
+
+    /* objection overlay */
+    $('fl-obj-x').onclick = closeObj;
+    $('fl-obj-done').onclick = closeObj;
+    $('fl-obj').addEventListener('click', function(e){ if (e.target === $('fl-obj')) closeObj(); });
+    $('fl-obj-q').oninput = function(){ objState.q = this.value; objState.touched = true; refreshObj(null); };
+    $('fl-obj-cats').addEventListener('click', function(e){
+      var b = e.target.closest('[data-ocat]'); if (!b) return;
+      objState.cat = b.getAttribute('data-ocat'); refreshObj(null);
+    });
+    $('fl-obj').addEventListener('click', function(e){
+      var b = e.target.closest('[data-obj]');
+      if (b) { objState.touched = true; var id = b.getAttribute('data-obj'); if (b.parentNode.className === 'fl-obj-rel') { objState.q = ''; $('fl-obj-q').value = ''; objState.cat = 'all'; } refreshObj(id); return; }
+      var c = e.target.closest('[data-copy]');
+      if (c) copyText($('fl-obj-ans')._say || '');
+    });
+
+    /* keyboard */
+    document.addEventListener('keydown', function(e){
+      if ($('flow').style.display !== 'grid') return;
+      var ov = !$('fl-obj').hidden;
+      var typing = document.activeElement && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+      if (ov) {
+        if (e.key === 'Escape') { e.preventDefault(); closeObj(); return; }
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          var L = objState.list, i = L.findIndex(function(o){ return o.i === objState.sel; });
+          i = Math.max(0, Math.min(L.length - 1, i + (e.key === 'ArrowDown' ? 1 : -1)));
+          if (L[i]) { objState.touched = true; objState.sel = L[i].i; refreshObj(L[i].i); var on = document.querySelector('#fl-obj-list .on'); if (on) on.scrollIntoView({block:'nearest'}); }
+          return;
+        }
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); closeObj(); }
+        return;
+      }
+      if (e.key === 'Escape') { $('fl-side').classList.remove('open'); if (typing) document.activeElement.blur(); return; }
+      if (typing) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === '/') { e.preventDefault(); openObj(null); return; }
+      if (e.key === 'Enter' || e.key === 'ArrowRight') { e.preventDefault(); next(); return; }
+      if (e.key === 'Backspace' || e.key === 'ArrowLeft') { e.preventDefault(); back(); return; }
+      if (/^[1-9]$/.test(e.key)) { var n = N[cur]; if (n && n.opts && n.opts[+e.key - 1]) { e.preventDefault(); choose(+e.key - 1); } }
+    });
+  }
+
+  /* ---------- hook into the existing app ---------- */
+  function wire(){
+    var _startCall = startCall;
+    startCall = function(){ _startCall(); start(); };
+
+    var _goToOutcome = goToOutcome;
+    goToOutcome = function(){
+      if (callStart) composeNotes();
+      $('flow').style.display = 'none';
+      $('fl-obj').hidden = true;
+      _goToOutcome();
+    };
+
+    backToCallFromOutcome = function(){
+      /* keep any edits made on the outcome screen: strip the auto lines back out */
+      T.flowManual = (T.notes || '').split('\n').filter(function(l){ return l.indexOf(AUTO) !== 0; }).join('\n').trim();
+      show();
+    };
+
+    var _switchMode = switchMode;
+    switchMode = function(m){
+      if (m === 'call') { if (callStart) show(); else startCall(); return; }
+      $('flow').style.display = 'none';
+      _switchMode(m);
+    };
+
+    var _backToSetup = backToSetup;
+    backToSetup = function(){ $('flow').style.display = 'none'; $('fl-obj').hidden = true; _backToSetup(); };
+
+    var _goWA = goFromOutcomeToWA;
+    goFromOutcomeToWA = function(){
+      var o = OUTCOMES.find(function(x){ return x.id === outcomeChoice; });
+      if (o && o.waStage === null) { callStart = null; clearInterval(timerInt); }
+      _goWA();
+    };
+
+    /* "Guided view" button in the classic header */
+    var hr = document.querySelector('#call .hright');
+    if (hr) {
+      var b = document.createElement('button');
+      b.className = 'hend-btn';
+      b.style.cssText = 'background:var(--teall);color:var(--tealDeep);border-color:rgba(6,182,212,.35);margin-right:6px;';
+      b.innerHTML = '<i class="ti ti-route"></i> Guided view';
+      b.onclick = function(){ setView('flow'); };
+      hr.insertBefore(b, hr.firstChild);
+    }
+    /* Update setup copy to match */
+    var mc = document.querySelector('.modecard.call .modecard-sub');
+    if (mc) mc.textContent = 'Guided, one card at a time: what to say, what to tap, and an instant objection answer on "/".';
+  }
+
+  wire(); bind();
+  return {go:go, back:back, next:next, choose:choose, openObj:openObj, closeObj:closeObj, setView:setView, nodes:N, get cur(){ return cur; }, composeNotes:composeNotes};
+})();
 
 </script>
 </body>
