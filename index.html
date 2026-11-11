@@ -4631,7 +4631,7 @@ var PHASES_EXPERIENCED = [
   /* ── PHASE 3: ROLE + EXPERIENCE CAPTURE (the flip point, inline chips) ── */
   {name:'Role + Experience',icon:'ti-id-badge',topic:'trust',steps:[
     {tag:'Role + total experience',
-     scr:'**So currently, what role are you in at the school?**\n\n*[Click the matching role below as they say it]*\n\n{{SUBROLE_CHIPS}}\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n**And approximately how long have you been in education overall?**\n\n*[Click the matching range. **0\u20132 yrs auto-routes back to fresher track**.]*\n\n{{EXP_CHIPS}}',
+     scr:function(){ return (T.status === 'school' ? '**So currently, what role are you in at the school or institution or coaching?**\n\n*[Click the matching role below as they say it]*\n\n{{SUBROLE_CHIPS}}\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n**And approximately how long have you been in education overall?**\n\n*[Click the matching range. **0\u20132 yrs auto-routes back to fresher track**.]*\n\n{{EXP_CHIPS}}' : '**So currently, what role are you in at the school?**\n\n*[Click the matching role below as they say it]*\n\n{{SUBROLE_CHIPS}}\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n**And approximately how long have you been in education overall?**\n\n*[Click the matching range. **0\u20132 yrs auto-routes back to fresher track**.]*\n\n{{EXP_CHIPS}}'); },
      tip:'This is the **flip point**. The chips below capture into the lead profile and drive everything downstream. **Do not rush** \u2014 these two answers shape the rest of the call.',
      prof:'background'}
   ]},
@@ -8548,7 +8548,7 @@ var FL = (function(){
 
     /* ===== SENIOR TRACK ===== */
     x_role:{stage:'prof', tr:'x', title:'Their role',
-      say:['**So currently, what role are you in at the school?**'],
+      say:function(){ return [T.status === 'school' ? '**So currently, what role are you in at the school or institution or coaching?**' : '**So currently, what role are you in at the school?**']; },
       cap:[C('subrole','Role')], next:'x_ack'},
     x_ack:{stage:'prof', tr:'x', title:'Acknowledge their position',
       say:function(){
