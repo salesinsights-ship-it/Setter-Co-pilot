@@ -5727,34 +5727,26 @@ var WA_STAGES = [
 ];
 
 var WA_SEGMENTS = [
-  {id:'unknown',name:'Unknown',sub:'No goal info'},
-  {id:'upskill',name:'Upskill',sub:'Growth, not job'},
-  {id:'jobs',name:'Jobs',sub:'Just portal link'},
-  {id:'jobs_india',name:'Jobs in India',sub:'Domestic placement'},
-  {id:'abroad',name:'Abroad Jobs',sub:'IB / international'},
-  {id:'tdc',name:'TDC lead',sub:'Centre-based'}
+  {id:'salary',name:'Salary Growth',sub:'Wants a better package'},
+  {id:'position',name:'Positional Growth',sub:'HOD, coordinator, leadership'},
+  {id:'abroad',name:'Teach Abroad',sub:'International schools'},
+  {id:'newjob',name:'Get a new job',sub:'Switch schools'},
+  {id:'upskill',name:'Upskill',sub:'Grow in current role'}
 ];
+/* Which story to lead with in T2 for each segment */
+var WA_SEG_GOAL = {salary:'salary', position:'betterSchool', abroad:'abroad', newjob:'betterSchool', upskill:'upskill'};
 
 /* Stage|segment \u2192 template ID order */
-var WA_TREE = {
-  'dnp|unknown':['T1'], 'dnp|upskill':['T1','T9'], 'dnp|jobs':['T1','T8'],
-  'dnp|jobs_india':['T1','T3'], 'dnp|abroad':['T1','T4'], 'dnp|tdc':['T1','T6'],
-
-  'cbl|unknown':['T11'], 'cbl|upskill':['T11','T9'], 'cbl|jobs':['T11','T8'],
-  'cbl|jobs_india':['T11','T3'], 'cbl|abroad':['T11','T4'], 'cbl|tdc':['T11','T6'],
-
-  'pre_session|unknown':['T2'], 'pre_session|upskill':['T2','T9'], 'pre_session|jobs':['T2','T8'],
-  'pre_session|jobs_india':['T2','T3'], 'pre_session|abroad':['T2','T4'], 'pre_session|tdc':['T2','T6'],
-
-  'post_session|unknown':['T9'], 'post_session|upskill':['T9'], 'post_session|jobs':['T8'],
-  'post_session|jobs_india':['T3'], 'post_session|abroad':['T4'], 'post_session|tdc':['T6'],
-
-  'no_show|unknown':['T7'], 'no_show|upskill':['T7','T9'], 'no_show|jobs':['T7','T8'],
-  'no_show|jobs_india':['T7','T3'], 'no_show|abroad':['T7','T4'], 'no_show|tdc':['T7','T6'],
-
-  'nurture|unknown':['T10'], 'nurture|upskill':['T10','T9'], 'nurture|jobs':['T10','T8'],
-  'nurture|jobs_india':['T10','T3'], 'nurture|abroad':['T10','T4'], 'nurture|tdc':['T10','T6']
-};
+var WA_TREE = (function(){
+  var first = {dnp:'T1', cbl:'T11', pre_session:'T2', no_show:'T7', nurture:'T10'};
+  var follow = {salary:'T3', position:'T9', abroad:'T4', newjob:'T8', upskill:'T9'};
+  var tree = {};
+  Object.keys(follow).forEach(function(seg){
+    Object.keys(first).forEach(function(st){ tree[st + '|' + seg] = [first[st], follow[seg]]; });
+    tree['post_session|' + seg] = [follow[seg]];
+  });
+  return tree;
+})();
 
 var WA_TEMPLATES = {
   T1:{id:'T1',name:'Cold intro',focus:'Warm, professional first text. Reach out after missing a call. Ask for a time to connect.',
@@ -6939,7 +6931,7 @@ function pickGoalTestimonial(t) {
     if (prev) return prev;
   }
   // 2. Match on T.goal (fresher) or T.expGoal (experienced)
-  var goal = T.goal || T.expGoal || '';
+  var goal = (waSegment && WA_SEG_GOAL[waSegment]) || T.goal || T.expGoal || '';
   if (goal) {
     var match = t.testimonials.filter(function(x){
       return x.goalMatch && x.goalMatch.indexOf(goal) >= 0;
@@ -7336,10 +7328,12 @@ function goFromOutcomeToWA() {
   }
   waStage = o.waStage;
   // Try to auto-pick a segment from profile
-  if (T.goal==='abroad') waSegment='abroad';
-  else if (T.goal==='salary' || T.goal==='betterSchool') waSegment='jobs_india';
+  if (T.expGoal==='leadership') waSegment='position';
+  else if (T.goal==='abroad') waSegment='abroad';
+  else if (T.goal==='salary') waSegment='salary';
+  else if (T.goal==='betterSchool') waSegment='newjob';
   else if (T.goal==='upskill') waSegment='upskill';
-  else waSegment='unknown';
+  else waSegment=null;
   document.getElementById('outcome').style.display='none';
   document.getElementById('wamode').style.display='grid';
   renderWA();
